@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Typewriter from "typewriter-effect";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
@@ -34,61 +34,98 @@ function Dashboard() {
       </div>
 
       <div className="my-3 p-3 bg-body rounded shadow-sm">
-        <h6 className="pb-2 mb-0">
-          <img src="/logo.png" alt="" className="img-fluid" />
+        <h6 className="pb-2 mb-2 p-4">
+          <Row>
+            <Col md={{ span: 8, offset: 2 }} sm={12}>
+              <img src="/logo.png" alt="" className="img-fluid" height="100 " />
+            </Col>
+          </Row>
         </h6>
-        <h6 className="border-bottom pb-2 mb-0">Bisa apa aja?</h6>
-        <div className="d-flex text-body-secondary pt-3">
-          <Button
-            variant="light"
-            style={{ background: "#007bff" }}
-            className="h-50 me-3 text-white"
-          >
-            <FontAwesomeIcon icon={faBoxesStacked} />
-          </Button>
-          <p className="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <strong className="d-block text-gray-dark">Stok Lensa</strong>
-            Kamu bisa mengecek stok lensa yang ada di Lab berdasarkan jenisnya
-            atau bisa langsung mencarinya berdasarkan power lensanya
-            <Link className="btn btn-link btn-sm" to="/stok-lensa">
-              Klik disini...
-            </Link>
-          </p>
-        </div>
-        <div className="d-flex text-body-secondary pt-3">
-          <Button
-            variant="light"
-            style={{ background: "#e83e8c" }}
-            className="h-50 me-3 text-white"
-          >
-            <FontAwesomeIcon icon={faLaptopMedical} />
-          </Button>
-          <p className="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <strong className="d-block text-gray-dark">Rekam Medis</strong>
-            Kamu bisa melihat dan mencatat data pasien yang datang ke Optik
-            kamu, baik itu pasien baru atau kunjungan pasien lama
-            <Link className="btn btn-link btn-sm" to="/rekam-medis">
-              Klik disini...
-            </Link>
-          </p>
-        </div>
-        <div className="d-flex text-body-secondary pt-3">
-          <Button
-            variant="light"
-            style={{ background: "#6f42c1" }}
-            className="h-50 me-3 text-white"
-          >
-            <FontAwesomeIcon icon={faCertificate} />
-          </Button>
-          <p className="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <strong className="d-block text-gray-dark">Garansi</strong>
-            Kamu bisa melihat semua data kartu garansi pelanggan yang tercatat
-            di Optik kamu dan melakukan klaim garansi nya
-            <Link className="btn btn-link btn-sm" to="/rekam-medis">
-              Klik disini...
-            </Link>
-          </p>
-        </div>
+        <h3 className="border-bottom pb-2 my-2 text-center">Bisa Apa Aja?</h3>
+        <Row className="px-3">
+          <Col md={4} sm={12} xs={12} className="mb-2">
+            <Card className="shadow p-3 mb-5 bg-body rounded">
+              <Card.Body>
+                <div className="p-4">
+                  <img src="/stok-lensa.jpg" alt="" className="img-fluid" />
+                </div>
+                <Card.Title
+                  className="text-center"
+                  style={{ color: "#6f42c1" }}
+                >
+                  <h4>Stok Lensa</h4>
+                </Card.Title>
+                <p className="mt-3 mb-4 mx-3">
+                  Kamu bisa mengecek stok lensa yang ada di Lab berdasarkan
+                  jenisnya atau bisa langsung mencarinya berdasarkan power
+                  lensanya
+                </p>
+                <Button
+                  className="text-white bg-purple"
+                  variant="light w-100"
+                  size="lg"
+                >
+                  Selengkapnya
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4} sm={12} xs={12} className="mb-2">
+            <Card
+              className="shadow p-3 mb-5 bg-body rounded"
+              style={{ border: "solid #6f42c1 1px" }}
+            >
+              <Card.Body>
+                <div className="p-4">
+                  <img src="/rekam-medis.jpg" alt="" className="img-fluid" />
+                </div>
+                <Card.Title
+                  className="text-center"
+                  style={{ color: "#6f42c1" }}
+                >
+                  <h4>Rekam Medis</h4>
+                </Card.Title>
+                <p className="mt-3 mb-4 mx-3">
+                  Kamu bisa melihat dan mencatat data pasien yang datang ke
+                  Optik kamu, baik itu pasien baru atau kunjungan pasien lama
+                </p>
+                <Button
+                  className="text-white bg-purple"
+                  variant="light w-100"
+                  size="lg"
+                >
+                  Selengkapnya
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4} sm={12} xs={12} className="mb-2">
+            <Card className="shadow p-3 mb-5 bg-body rounded">
+              <Card.Body>
+                <div className="p-4">
+                  <img src="/garansi.jpg" alt="" className="img-fluid" />
+                </div>
+                <Card.Title
+                  className="text-center"
+                  style={{ color: "#6f42c1" }}
+                >
+                  <h4>Garansi</h4>
+                </Card.Title>
+                <p className="mt-3 mb-4 mx-3">
+                  Kamu bisa melihat semua data kartu garansi pelanggan yang
+                  tercatat di semua Optik kamu dan melakukan klaim garansi nya
+                </p>
+                <Button
+                  className="text-white bg-purple"
+                  variant="light w-100"
+                  size="lg"
+                >
+                  Selengkapnya
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </div>
     </main>
   );
