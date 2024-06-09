@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,11 +22,21 @@ function App() {
           children: [
             {
               path: "/",
-              element: <Dashboard />,
+              element: (
+                <>
+                  <Dashboard />
+                  <Footer />
+                </>
+              ),
             },
             {
               path: "/dashboard",
-              element: <Dashboard />,
+              element: (
+                <>
+                  <Dashboard />
+                  <Footer />
+                </>
+              ),
             },
           ],
         },
