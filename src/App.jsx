@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 function App() {
   const router = createBrowserRouter([
@@ -12,12 +13,21 @@ function App() {
       element: <LoginPage />,
     },
     {
-      path: "/dashboard",
-      element: <Dashboard />,
-    },
-    {
-      path: "/",
-      element: <Dashboard />,
+      element: (
+        <>
+          <ProtectedRoutes />
+        </>
+      ),
+      children: [
+        {
+          path: "/",
+          element: <Dashboard />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
+      ],
     },
   ]);
 
