@@ -28,6 +28,7 @@
     "react-router-dom": "^6.23.1",
     "react-spinners": "^0.13.8",
     "sweetalert2": "^11.11.1",
+    "typewriter-effect": "^2.21.0",
     "universal-cookie": "^7.1.4"
   },
   "devDependencies": {
