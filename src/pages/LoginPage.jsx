@@ -1,7 +1,62 @@
-import React from "react";
-import { Container, Row, Col, Card, Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Card, Form, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 function LoginPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
+  const [isError, setIsError] = useState("");
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  const [dataLogin, setDataLogin] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setDataLogin((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(API_URL + "/login", {
+        username: dataLogin.username,
+        password: dataLogin.password,
+      });
+      if (response.data.success) {
+        const token = response.data.token;
+        cookies.set("rm-ma-token", token, {
+          maxAge: 2628000,
+        });
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 500);
+      } else {
+        setIsError(response.data.message);
+        setTimeout(() => {
+          setIsError("");
+        }, 3000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    const userToken = cookies.get("rm-ma-token");
+    if (userToken) {
+      return navigate("/");
+    }
+  }, []);
+
   return (
     <section className="h-100">
       <Container className="h-100">
@@ -12,41 +67,52 @@ function LoginPage() {
             </div>
             <Card className="shadow-lg">
               <Card.Body className="p-5">
+                {isError && (
+                  <Alert variant="danger" className="py-2">
+                    <FontAwesomeIcon
+                      icon={faCircleExclamation}
+                      className="me-1"
+                    />
+                    {isError}
+                  </Alert>
+                )}
                 <h1 className="fs-4 card-title fw-bold mb-4">Please Login</h1>
-                <Form autoComplete="off">
+                <Form autoComplete="off" onSubmit={handleSubmit}>
                   <div className="mb-3">
-                    <label className="mb-2 text-muted" htmlFor="email">
-                      Email
-                    </label>
-                    <input
+                    <Form.Label htmlFor="email">Email</Form.Label>
+                    <Form.Control
+                      autoComplete="off"
                       id="email"
                       type="email"
-                      className="form-control"
-                      name="email"
-                      required
-                      autoFocus
-                      placeholder="Email"
+                      name="username"
+                      placeholder="email@domain.com"
+                      value={dataLogin.username}
+                      onChange={(e) => handleChange(e)}
                     />
                   </div>
-
                   <div className="mb-3">
-                    <div className="mb-2 w-100">
-                      <label className="text-muted" htmlFor="password">
-                        Password
-                      </label>
-                    </div>
-                    <input
+                    <Form.Label htmlFor="password">Password</Form.Label>
+                    <Form.Control
+                      autoComplete="off"
                       id="password"
                       type="password"
-                      className="form-control"
                       name="password"
-                      required
-                      placeholder="******"
+                      placeholder="*****"
+                      value={dataLogin.password}
+                      onChange={(e) => handleChange(e)}
                     />
                   </div>
 
                   <div className="d-flex align-items-center">
-                    <input type="submit" className="btn btn-indigo ms-auto" />
+                    <input
+                      type="submit"
+                      className="btn btn-indigo ms-auto w-100"
+                      value="Login"
+                      disabled={
+                        dataLogin.username.length == 0 ||
+                        dataLogin.password.length == 0
+                      }
+                    />
                   </div>
                 </Form>
               </Card.Body>
