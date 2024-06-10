@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Navbar, Container, Nav } from "react-bootstrap";
+import Footer from "./Footer";
 
 function Navigation() {
   const toggleRef = useRef(null);
@@ -59,6 +60,7 @@ function Navigation() {
       </Navbar>
 
       <Outlet />
+      <Footer />
     </>
   );
 }

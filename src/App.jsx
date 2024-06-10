@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Navigation from "./components/Navigation";
-import Footer from "./components/Footer";
+import RekamMedis from "./components/RekamMedis";
 
 function App() {
   const router = createBrowserRouter([
@@ -22,21 +22,15 @@ function App() {
           children: [
             {
               path: "/",
-              element: (
-                <>
-                  <Dashboard />
-                  <Footer />
-                </>
-              ),
+              element: <Dashboard />,
             },
             {
               path: "/dashboard",
-              element: (
-                <>
-                  <Dashboard />
-                  <Footer />
-                </>
-              ),
+              element: <Dashboard />,
+            },
+            {
+              path: "/rekam-medis",
+              element: <RekamMedis />,
             },
           ],
         },
