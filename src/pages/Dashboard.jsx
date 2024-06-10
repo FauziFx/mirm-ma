@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 function Dashboard() {
   return (
     <main className="container">
-      <div className="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+      <div className="d-flex align-items-center p-3 my-3 text-white bg-primary rounded shadow-sm">
         <div className="lh-1">
           <h1 className="h5 mb-0 text-white lh-1">
             <Typewriter
@@ -37,22 +37,19 @@ function Dashboard() {
         <h6 className="pb-2 mb-2 p-4">
           <Row>
             <Col md={{ span: 8, offset: 2 }} sm={12}>
-              <img src="/logo.png" alt="" className="img-fluid" height="100 " />
+              <img src="/logo.png" alt="" className="img-fluid" />
             </Col>
           </Row>
         </h6>
         <h3 className="border-bottom pb-2 my-2 text-center">Bisa Apa Aja?</h3>
         <Row className="px-3">
           <Col md={4} sm={12} xs={12} className="mb-2">
-            <Card className="shadow p-3 mb-5 bg-body rounded">
+            <Card className="shadow p-3 mb-5 bg-body">
               <Card.Body>
                 <div className="p-4">
                   <img src="/stok-lensa.jpg" alt="" className="img-fluid" />
                 </div>
-                <Card.Title
-                  className="text-center"
-                  style={{ color: "#6f42c1" }}
-                >
+                <Card.Title className="text-center text-primary">
                   <h4>Stok Lensa</h4>
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-3">
@@ -61,8 +58,8 @@ function Dashboard() {
                   lensanya
                 </p>
                 <Button
-                  className="text-white bg-purple"
-                  variant="light w-100"
+                  className="text-white"
+                  variant="primary w-100"
                   size="lg"
                 >
                   Selengkapnya
@@ -71,18 +68,12 @@ function Dashboard() {
             </Card>
           </Col>
           <Col md={4} sm={12} xs={12} className="mb-2">
-            <Card
-              className="shadow p-3 mb-5 bg-body rounded"
-              style={{ border: "solid #6f42c1 1px" }}
-            >
+            <Card className="shadow p-3 mb-5 bg-body">
               <Card.Body>
                 <div className="p-4">
                   <img src="/rekam-medis.jpg" alt="" className="img-fluid" />
                 </div>
-                <Card.Title
-                  className="text-center"
-                  style={{ color: "#6f42c1" }}
-                >
+                <Card.Title className="text-center text-primary">
                   <h4>Rekam Medis</h4>
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-3">
@@ -90,8 +81,8 @@ function Dashboard() {
                   Optik kamu, baik itu pasien baru atau kunjungan pasien lama
                 </p>
                 <Button
-                  className="text-white bg-purple"
-                  variant="light w-100"
+                  className="text-white"
+                  variant="primary w-100"
                   size="lg"
                 >
                   Selengkapnya
@@ -100,15 +91,12 @@ function Dashboard() {
             </Card>
           </Col>
           <Col md={4} sm={12} xs={12} className="mb-2">
-            <Card className="shadow p-3 mb-5 bg-body rounded">
+            <Card className="shadow p-3 mb-5 bg-body">
               <Card.Body>
                 <div className="p-4">
                   <img src="/garansi.jpg" alt="" className="img-fluid" />
                 </div>
-                <Card.Title
-                  className="text-center"
-                  style={{ color: "#6f42c1" }}
-                >
+                <Card.Title className="text-center text-primary">
                   <h4>Garansi</h4>
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-3">
@@ -116,8 +104,8 @@ function Dashboard() {
                   tercatat di semua Optik kamu dan melakukan klaim garansi nya
                 </p>
                 <Button
-                  className="text-white bg-purple"
-                  variant="light w-100"
+                  className="text-white"
+                  variant="primary w-100"
                   size="lg"
                 >
                   Selengkapnya
