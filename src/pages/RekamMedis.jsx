@@ -1,9 +1,8 @@
 import { faHospitalUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { Container, Tab, Row, Col, Nav } from "react-bootstrap";
+import React from "react";
+import { Container, Tab, Nav } from "react-bootstrap";
 import DataPasien from "../components/DataPasien";
-import axios from "axios";
 
 function RekamMedis() {
   return (
@@ -20,12 +19,20 @@ function RekamMedis() {
         <Container>
           <Nav variant="underline">
             <Nav.Item>
-              <Nav.Link eventKey="pendaftaran-pasien">
+              <Nav.Link
+                eventKey="pendaftaran-pasien"
+                className="p-1"
+                style={{ fontSize: "12px" }}
+              >
                 <FontAwesomeIcon icon={faUserPlus} /> &nbsp; Pendaftaran Pasien
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="kunjungan-pasien">
+              <Nav.Link
+                eventKey="kunjungan-pasien"
+                className="p-1"
+                style={{ fontSize: "12px" }}
+              >
                 <FontAwesomeIcon icon={faHospitalUser} /> &nbsp;Kunjungan Pasien
               </Nav.Link>
             </Nav.Item>
