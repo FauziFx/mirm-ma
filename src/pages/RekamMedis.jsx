@@ -6,18 +6,6 @@ import DataPasien from "../components/DataPasien";
 import axios from "axios";
 
 function RekamMedis() {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const [dataOptik, setDataOptik] = useState();
-
-  const getDataOptik = async () => {
-    const response = await axios.get(API_URL + "optik");
-    setDataOptik(response.data.data);
-  };
-
-  useEffect(() => {
-    getDataOptik();
-  }, []);
-
   return (
     <Container className="page-container">
       <div className="d-flex align-items-center p-3 my-3 text-white bg-primary rounded shadow-sm">
@@ -45,7 +33,7 @@ function RekamMedis() {
         </Container>
         <Tab.Content>
           <Tab.Pane eventKey="pendaftaran-pasien">
-            <DataPasien dataOptik={dataOptik} />
+            <DataPasien />
           </Tab.Pane>
           <Tab.Pane eventKey="kunjungan-pasien">Kunjungan Pasien</Tab.Pane>
         </Tab.Content>

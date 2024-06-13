@@ -31,12 +31,13 @@ import moment from "moment-timezone";
 import "moment/dist/locale/id";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
-function DataPasien({ dataOptik }) {
+function DataPasien() {
   const API_URL = import.meta.env.VITE_API_URL;
   const cookies = new Cookies();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [dataOptik, setDataOptik] = useState([]);
 
   // Filter
   const [search, setSearch] = useState("");
@@ -120,6 +121,8 @@ function DataPasien({ dataOptik }) {
 
   const getData = async () => {
     try {
+      const optik = await axios.get(API_URL + "/optik");
+      setDataOptik(optik.data.data);
       const response = await axios.get(API_URL + "/pasien", {
         headers: {
           Authorization: cookies.get("rm-ma-token"),
