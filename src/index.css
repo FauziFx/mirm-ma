@@ -111,3 +111,17 @@ body {
     #6a3093
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+button.btn-filter::after {
+  display: none;
+}
+
+.lnndaO {
+  white-space: pre-line !important;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

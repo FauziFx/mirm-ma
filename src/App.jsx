@@ -4,9 +4,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
+import RekamMedis from "./pages/RekamMedis";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Navigation from "./components/Navigation";
-import RekamMedis from "./components/RekamMedis";
 
 function App() {
   const router = createBrowserRouter([
