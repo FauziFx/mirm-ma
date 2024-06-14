@@ -155,24 +155,51 @@ function DataPasien() {
     const filterNamaOptik = filterSearch.filter((item) => {
       return item.id_optik.toString().includes(namaOptik.split("-")[0]);
     });
-    setFilter(filterNamaOptik);
-  }, [search, namaOptik]);
+
+    const filterTglPeriksa = filterNamaOptik.filter((item) => {
+      const TODAY = moment().clone().startOf("day");
+      const YESTERDAY = moment().clone().subtract(1, "days").startOf("day");
+      const THISWEEK = moment().clone().subtract(7, "days").startOf("day");
+      const THISMONTH = moment().clone().subtract(30, "days").startOf("day");
+      const _3MONTH = moment().clone().subtract(90, "day").startOf("day");
+      const _6MONTH = moment().clone().subtract(180, "day").startOf("day");
+      if (terakhirPeriksa == "Hari Ini") {
+        return moment(
+          moment(item.terakhir_periksa).format("YYYY-MM-DD")
+        ).isSame(TODAY, "d");
+      } else if (terakhirPeriksa == "Kemarin") {
+        return moment(
+          moment(item.terakhir_periksa).format("YYYY-MM-DD")
+        ).isSame(YESTERDAY, "d");
+      } else if (terakhirPeriksa == "Minggu Ini") {
+        return moment(
+          moment(item.terakhir_periksa).format("YYYY-MM-DD")
+        ).isAfter(THISWEEK);
+      } else if (terakhirPeriksa == "Bulan Ini") {
+        return moment(
+          moment(item.terakhir_periksa).format("YYYY-MM-DD")
+        ).isAfter(THISMONTH);
+      } else if (terakhirPeriksa == "3 Bulan Lalu") {
+        return moment(
+          moment(item.terakhir_periksa).format("YYYY-MM-DD")
+        ).isAfter(_3MONTH);
+      } else if (terakhirPeriksa == "6 Bulan Lalu") {
+        return moment(
+          moment(item.terakhir_periksa).format("YYYY-MM-DD")
+        ).isAfter(_6MONTH);
+      } else if (terakhirPeriksa == "Belum Periksa") {
+        return item.terakhir_periksa == null;
+      } else {
+        return true;
+      }
+    });
+
+    setFilter(filterTglPeriksa);
+  }, [search, namaOptik, terakhirPeriksa]);
 
   return (
     <>
-      <Card className="mt-2 shadow">
-        <Card.Header>
-          <Row>
-            <Col md={6} sm={12}>
-              <h4>Data Pasien</h4>
-            </Col>
-            <Col md={6} sm={12} className="text-end">
-              <Button variant="primary" size="sm">
-                <FontAwesomeIcon icon={faUserPlus} /> &nbsp; Pendaftaran Pasien
-              </Button>
-            </Col>
-          </Row>
-        </Card.Header>
+      <Card className="shadow">
         <Card.Body>
           <Row>
             <Col md={3} sm={12} className="mb-2">
@@ -207,6 +234,7 @@ function DataPasien() {
                   onChange={(e) => setTerakhirPeriksa(e.target.value)}
                 >
                   <option hidden>Terakhir Periksa</option>
+                  <option value="Belum Periksa">Belum Periksa</option>
                   <option value="Hari Ini">Hari Ini</option>
                   <option value="Kemarin">Kemarin</option>
                   <option value="Minggu Ini">Minggu Ini</option>
