@@ -6,7 +6,7 @@ import {
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Card,
   ProgressBar,
@@ -15,9 +15,9 @@ import {
   Col,
   InputGroup,
   Button,
+  Image,
 } from "react-bootstrap";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment-timezone";
@@ -34,6 +34,11 @@ function TambahPasien({ onChangeTambahPasien }) {
   const [usia, setUsia] = useState("");
   const [token, setToken] = useState("");
 
+  const uploadFile = useRef(null);
+  const [file, setFile] = useState("");
+  const [openPreview, setOpenPreview] = useState(false);
+  const [preview, setPreview] = useState("");
+
   const [dataPribadi, setDataPribadi] = useState({
     nama: "",
     alamat: "",
@@ -45,6 +50,48 @@ function TambahPasien({ onChangeTambahPasien }) {
     riwayat: "",
     id_optik: "",
   });
+
+  const [ukuranLama, setUkuranLama] = useState({
+    rsph: "",
+    rcyl: "",
+    raxis: "",
+    radd: "",
+    lsph: "",
+    lcyl: "",
+    laxis: "",
+    ladd: "",
+    pd_jauh: "",
+    pd_dekat: "",
+    ukuran_lama: "y",
+    keterangan: "",
+  });
+
+  const [ukuranBaru, setUkuranBaru] = useState({
+    rsph: "",
+    rcyl: "",
+    raxis: "",
+    radd: "",
+    lsph: "",
+    lcyl: "",
+    laxis: "",
+    ladd: "",
+    pd_jauh: "",
+    pd_dekat: "",
+    tanggal_periksa: moment().tz("Asia/Jakarta").format("YYYY-MM-DD"),
+    pemeriksa: "",
+    optik_id: "",
+    keterangan: "",
+  });
+
+  const [keterangan, setKeterangan] = useState({
+    frame: "",
+    lensa: "",
+    harga: "",
+  });
+
+  const addCommas = (num) =>
+    num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, "");
 
   const list = [
     { name: "Hipertensi", check: false },
@@ -89,6 +136,7 @@ function TambahPasien({ onChangeTambahPasien }) {
     }
   };
 
+  // Handle change usia
   const handleChangeUsia = async (e) => {
     const tahun_lahir = new Date().getFullYear() - e.target.value;
     setUsia(e.target.value);
@@ -98,11 +146,81 @@ function TambahPasien({ onChangeTambahPasien }) {
     }));
   };
 
+  // Handle Change Data Pribadi
   const handleChangeDP = (e) => {
     setDataPribadi((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  // Handle Change Ukuran Lama
+  const handleChangeUlPower = (e) => {
+    const value = e.target.value;
+    if (!isNaN(value)) {
+      setUkuranLama((prev) => ({
+        ...prev,
+        [e.target.name]: value,
+      }));
+    } else if (value == "-" || value == "+") {
+      setUkuranLama((prev) => ({
+        ...prev,
+        [e.target.name]: value,
+      }));
+    }
+  };
+
+  // Handle Change Ukuran Baru
+  const handleChangeUB = (e) => {
+    setUkuranBaru((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleChangeUbPower = (e) => {
+    const value = e.target.value;
+    if (!isNaN(value)) {
+      setUkuranBaru((prev) => ({
+        ...prev,
+        [e.target.name]: value,
+      }));
+    } else if (value == "-" || value == "+") {
+      setUkuranBaru((prev) => ({
+        ...prev,
+        [e.target.name]: value,
+      }));
+    }
+  };
+
+  // Load Image
+  const loadImage = (e) => {
+    const files = e.target.files[0];
+    if (
+      files.type == "image/png" ||
+      files.type == "image/jpeg" ||
+      files.type == "image/jpg"
+    ) {
+      if (files.size > 3145728) {
+        Toast.fire({
+          icon: "error",
+          title: "Waduh kegedean filenya!",
+        });
+        setOpenPreview(false);
+        setFile("");
+      } else {
+        setFile(files);
+        setPreview(URL.createObjectURL(e.target.files[0]));
+        setOpenPreview(true);
+      }
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Waduh gambarnya harus png, jpg atau jpeg",
+      });
+      setOpenPreview(false);
+      setFile("");
+    }
   };
 
   const closeTambahPasien = useCallback(() => {
@@ -119,6 +237,7 @@ function TambahPasien({ onChangeTambahPasien }) {
     });
   };
 
+  // handle submit data pribadi
   const handleSubmitDataPribadi = async (e) => {
     e.preventDefault();
     try {
@@ -149,6 +268,113 @@ function TambahPasien({ onChangeTambahPasien }) {
     }
   };
 
+  // Handle submit ukuran lama
+  const handleSubmitUL = async (pasien_id) => {
+    try {
+      const od = [
+        ukuranLama.rsph,
+        ukuranLama.rcyl,
+        ukuranLama.raxis,
+        ukuranLama.radd,
+      ].join("/");
+      const os = [
+        ukuranLama.lsph,
+        ukuranLama.lcyl,
+        ukuranLama.laxis,
+        ukuranLama.ladd,
+      ].join("/");
+      const response = await axios.post(
+        API_URL + "rekam_lama",
+        {
+          od: od,
+          os: os,
+          pd_jauh: parseInt(ukuranLama.pd_jauh),
+          pd_dekat: parseInt(ukuranLama.pd_dekat),
+          keterangan: ukuranLama.keterangan,
+          ukuran_lama: "y",
+          pasien_id: pasien_id,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // handle submit ALl (Data Pribadi, Ukuran lama*, Ukuran Baru)
+  const handleSubmitAll = async (e) => {
+    e.preventDefault();
+    try {
+      // Insert & Get last insert ID pasien
+      const pasien_id = await handleSubmitDataPribadi(e);
+      // Insert ukuran lama
+      if (ukuranLama.rsph.length !== 0) {
+        await handleSubmitUL(pasien_id);
+      }
+      // Insert ukuran baru
+      const od = [
+        ukuranBaru.rsph,
+        ukuranBaru.rcyl,
+        ukuranBaru.raxis,
+        ukuranBaru.radd,
+      ].join("/");
+      const os = [
+        ukuranBaru.lsph,
+        ukuranBaru.lcyl,
+        ukuranBaru.laxis,
+        ukuranBaru.ladd,
+      ].join("/");
+
+      // Append Keterangan
+      const ket =
+        keterangan.frame +
+        "\n" +
+        keterangan.lensa +
+        "\nRp. " +
+        keterangan.harga;
+
+      // FormData
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append(
+        "data",
+        JSON.stringify({
+          od: od,
+          os: os,
+          pd_jauh: parseInt(ukuranBaru.pd_jauh),
+          pd_dekat: parseInt(ukuranBaru.pd_dekat),
+          tanggal_periksa: ukuranBaru.tanggal_periksa,
+          pemeriksa: ukuranBaru.pemeriksa,
+          keterangan: ket + "\n" + ukuranBaru.keterangan,
+          ukuran_lama: "n",
+          optik_id: ukuranBaru.optik_id,
+          pasien_id: pasien_id,
+        })
+      );
+
+      const response = await axios.post(API_URL + "rekam", formData, {
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      if (response.data.success) {
+        closeTambahPasien();
+        Toast.fire({
+          icon: "success",
+          title: response.data.message,
+        });
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getData();
     const tokenDecode = jwtDecode(cookies.get("rm-ma-token"));
@@ -156,6 +382,10 @@ function TambahPasien({ onChangeTambahPasien }) {
     setDataPribadi((prevState) => ({
       ...prevState,
       id_optik: tokenDecode.user.id_optik || "",
+    }));
+    setUkuranBaru((prevState) => ({
+      ...prevState,
+      optik_id: tokenDecode.user.id_optik || "",
     }));
   }, []);
 
@@ -378,6 +608,16 @@ function TambahPasien({ onChangeTambahPasien }) {
                         variant="success"
                         size="sm"
                         className="me-1"
+                        disabled={
+                          dataPribadi.nama.length === 0 ||
+                          dataPribadi.alamat.length === 0 ||
+                          dataPribadi.tempat.length === 0 ||
+                          dataPribadi.tanggal_lahir.length === 0 ||
+                          dataPribadi.jenis_kelamin.length === 0 ||
+                          dataPribadi.pekerjaan.length === 0 ||
+                          dataPribadi.nohp.length === 0 ||
+                          dataPribadi.id_optik.length === 0
+                        }
                       >
                         <FontAwesomeIcon icon={faSave} className="me-1" />
                         Simpan
@@ -387,6 +627,16 @@ function TambahPasien({ onChangeTambahPasien }) {
                         variant="primary"
                         size="sm"
                         onClick={() => handleStep(2)}
+                        disabled={
+                          dataPribadi.nama.length === 0 ||
+                          dataPribadi.alamat.length === 0 ||
+                          dataPribadi.tempat.length === 0 ||
+                          dataPribadi.tanggal_lahir.length === 0 ||
+                          dataPribadi.jenis_kelamin.length === 0 ||
+                          dataPribadi.pekerjaan.length === 0 ||
+                          dataPribadi.nohp.length === 0 ||
+                          dataPribadi.id_optik.length === 0
+                        }
                       >
                         Selanjutnya <FontAwesomeIcon icon={faArrowRight} />
                       </Button>
@@ -404,7 +654,7 @@ function TambahPasien({ onChangeTambahPasien }) {
               )}
               {/* Step 2 */}
               {step == 2 && (
-                <Form id="form-ukuran-lama">
+                <Form id="form-ukuran-lama" autoComplete="off">
                   <Form.Group className="mb-2">
                     <Row className="px-2">
                       <Col
@@ -421,6 +671,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="SPH"
+                          value={ukuranLama.rsph}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                       <Col xs className="p-0">
@@ -430,6 +682,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="CYL"
+                          value={ukuranLama.rcyl}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                       <Col xs className="p-0">
@@ -439,6 +693,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="AXIS"
+                          value={ukuranLama.raxis}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                       <Col xs className="p-0">
@@ -448,6 +704,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="ADD"
+                          value={ukuranLama.radd}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                     </Row>
@@ -466,6 +724,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="SPH"
+                          value={ukuranLama.lsph}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                       <Col xs className="p-0">
@@ -475,6 +735,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="CYL"
+                          value={ukuranLama.lcyl}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                       <Col xs className="p-0">
@@ -484,6 +746,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="AXIS"
+                          value={ukuranLama.laxis}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                       <Col xs className="p-0">
@@ -493,6 +757,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="ADD"
+                          value={ukuranLama.ladd}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                     </Row>
@@ -508,6 +774,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           type="text"
                           placeholder="PD Jauh"
                           required
+                          value={ukuranLama.pd_jauh}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                       <Col xs>
@@ -517,6 +785,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           placeholder="PD Dekat"
+                          value={ukuranLama.pd_dekat}
+                          onChange={(e) => handleChangeUlPower(e)}
                         />
                       </Col>
                     </Row>
@@ -529,6 +799,13 @@ function TambahPasien({ onChangeTambahPasien }) {
                       name="keterangan"
                       row={2}
                       placeholder="Keterangan/Keluhan/Lain-lain..."
+                      value={ukuranLama.keterangan}
+                      onChange={(e) =>
+                        setUkuranLama((prev) => ({
+                          ...prev,
+                          keterangan: e.target.value,
+                        }))
+                      }
                     />
                   </Form.Group>
                   <div className="d-flex justify-content-between">
@@ -548,6 +825,23 @@ function TambahPasien({ onChangeTambahPasien }) {
                         variant="secondary"
                         size="sm"
                         className="me-1"
+                        onClick={() => {
+                          setUkuranLama({
+                            rsph: "",
+                            rcyl: "",
+                            raxis: "",
+                            radd: "",
+                            lsph: "",
+                            lcyl: "",
+                            laxis: "",
+                            ladd: "",
+                            pd_jauh: "",
+                            pd_dekat: "",
+                            ukuran_lama: "y",
+                            keterangan: "",
+                          });
+                          handleStep(3);
+                        }}
                       >
                         Lewati
                         <FontAwesomeIcon icon={faForward} className="ms-1" />
@@ -557,6 +851,7 @@ function TambahPasien({ onChangeTambahPasien }) {
                         variant="primary"
                         size="sm"
                         onClick={() => handleStep(3)}
+                        disabled={ukuranLama.rsph.length === 0}
                       >
                         Selanjutnya <FontAwesomeIcon icon={faArrowRight} />
                       </Button>
@@ -567,6 +862,10 @@ function TambahPasien({ onChangeTambahPasien }) {
                     style={{ fontSize: "12px" }}
                   >
                     <span>* Klik Lewati kalau ngga ada</span>
+                    <br />
+                    <span>
+                      * Klik Selanjutnya kalau mau simpan ukuran lamanya
+                    </span>
                   </div>
                 </Form>
               )}
@@ -576,7 +875,11 @@ function TambahPasien({ onChangeTambahPasien }) {
                   <span className="text-danger" style={{ fontSize: "12px" }}>
                     * Wajib Diisi
                   </span>
-                  <Form id="form-ukuran-baru">
+                  <Form
+                    id="form-ukuran-baru"
+                    autoComplete="off"
+                    onSubmit={handleSubmitAll}
+                  >
                     <Form.Group className="mb-2">
                       <Row className="px-2">
                         <Col
@@ -593,6 +896,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="SPH"
+                            value={ukuranBaru.rsph}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                         <Col xs className="p-0">
@@ -602,6 +907,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="CYL"
+                            value={ukuranBaru.rcyl}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                         <Col xs className="p-0">
@@ -611,6 +918,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="AXIS"
+                            value={ukuranBaru.raxis}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                         <Col xs className="p-0">
@@ -620,6 +929,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="ADD"
+                            value={ukuranBaru.radd}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                       </Row>
@@ -638,6 +949,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="SPH"
+                            value={ukuranBaru.lsph}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                         <Col xs className="p-0">
@@ -647,6 +960,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="CYL"
+                            value={ukuranBaru.lcyl}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                         <Col xs className="p-0">
@@ -656,6 +971,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="AXIS"
+                            value={ukuranBaru.laxis}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                         <Col xs className="p-0">
@@ -665,6 +982,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="ADD"
+                            value={ukuranBaru.ladd}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                       </Row>
@@ -682,6 +1001,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             type="text"
                             placeholder="PD Jauh"
                             required
+                            value={ukuranBaru.pd_jauh}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                         <Col xs>
@@ -691,6 +1012,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             size="sm"
                             type="text"
                             placeholder="PD Dekat"
+                            value={ukuranBaru.pd_dekat}
+                            onChange={(e) => handleChangeUbPower(e)}
                           />
                         </Col>
                       </Row>
@@ -703,19 +1026,24 @@ function TambahPasien({ onChangeTambahPasien }) {
                         className="border border-primary"
                         type="date"
                         size="sm"
+                        value={ukuranBaru.tanggal_periksa}
+                        onChange={(e) => handleChangeUB(e)}
                       />
                     </Form.Group>
                     <Form.Group className="mb-2">
                       <Form.Label className="mb-0">
                         Optik <i className="text-danger">*</i>
                       </Form.Label>
-                      <Form.Select className="border border-primary" size="sm">
+                      <Form.Select
+                        name="optik_id"
+                        className="border border-primary"
+                        size="sm"
+                        value={ukuranBaru.optik_id}
+                        onChange={(e) => handleChangeUB(e)}
+                      >
                         <option hidden>Nama optik</option>
                         {dataOptik.map((item, index) => (
-                          <option
-                            key={index}
-                            value={item.id + "-" + item.nama_optik}
-                          >
+                          <option key={index} value={item.id}>
                             {item.nama_optik}
                           </option>
                         ))}
@@ -731,6 +1059,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                         size="sm"
                         type="text"
                         placeholder="Pemeriksa"
+                        value={ukuranBaru.pemeriksa}
+                        onChange={(e) => handleChangeUB(e)}
                       />
                     </Form.Group>
                     <Form.Group className="mb-2">
@@ -744,6 +1074,13 @@ function TambahPasien({ onChangeTambahPasien }) {
                           name="frame"
                           size="sm"
                           type="text"
+                          value={keterangan.frame}
+                          onChange={(e) =>
+                            setKeterangan((prev) => ({
+                              ...prev,
+                              frame: e.target.value,
+                            }))
+                          }
                         />
                       </InputGroup>
                       <InputGroup size="sm" className="mb-1">
@@ -755,6 +1092,13 @@ function TambahPasien({ onChangeTambahPasien }) {
                           name="lensa"
                           size="sm"
                           type="text"
+                          value={keterangan.lensa}
+                          onChange={(e) =>
+                            setKeterangan((prev) => ({
+                              ...prev,
+                              lensa: e.target.value,
+                            }))
+                          }
                         />
                       </InputGroup>
                       <InputGroup size="sm" className="mb-1">
@@ -766,6 +1110,15 @@ function TambahPasien({ onChangeTambahPasien }) {
                           name="frame"
                           size="sm"
                           type="text"
+                          value={keterangan.harga}
+                          onChange={(e) =>
+                            setKeterangan((prev) => ({
+                              ...prev,
+                              harga: addCommas(
+                                removeNonNumeric(e.target.value)
+                              ),
+                            }))
+                          }
                         />
                       </InputGroup>
                       <Form.Control
@@ -774,6 +1127,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                         as="textarea"
                         row={2}
                         placeholder="Keterangan lain"
+                        value={ukuranBaru.keterangan}
+                        onChange={(e) => handleChangeUB(e)}
                       />
                     </Form.Group>
                     <Form.Group className="mb-2">
@@ -783,31 +1138,55 @@ function TambahPasien({ onChangeTambahPasien }) {
                       <Form.Control
                         type="file"
                         accept=".jpg,.jpeg,.png"
+                        ref={uploadFile}
+                        onChange={(e) => loadImage(e)}
+                        capture
                         hidden
                       />
-                      <Card>
-                        <Card.Body
-                          className="d-flex justify-content-center"
-                          style={{
-                            borderStyle: "dashed",
-                            borderColor: "grey",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <div className="text-center fw-light">
-                            <FontAwesomeIcon icon={faFileImage} size="lg" />
-                            <br />
-                            <div className="text-muted">
-                              <i>
-                                Unggah File *.jpg, *.jpeg, *.png Max file 3MB
-                              </i>
+                      <Card onClick={() => uploadFile.current.click()}>
+                        {openPreview === true ? (
+                          <Card.Body
+                            className="d-flex justify-content-center"
+                            style={{
+                              borderStyle: "dashed",
+                              borderColor: "grey",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <Row>
+                              <Col md={{ span: 8, offset: 2 }} xs>
+                                <Image
+                                  src={preview}
+                                  fluid
+                                  className="shadow bg-body rounded"
+                                />
+                              </Col>
+                            </Row>
+                          </Card.Body>
+                        ) : (
+                          <Card.Body
+                            className="d-flex justify-content-center"
+                            style={{
+                              borderStyle: "dashed",
+                              borderColor: "grey",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <div className="text-center fw-light">
+                              <FontAwesomeIcon icon={faFileImage} size="lg" />
                               <br />
-                              <i className="text-secondary">
-                                (foto resep dokter/komputer/dll)
-                              </i>
+                              <div className="text-muted">
+                                <i>
+                                  Unggah File *.jpg, *.jpeg, *.png Max file 3MB
+                                </i>
+                                <br />
+                                <i className="text-secondary">
+                                  (foto resep dokter/komputer/dll)
+                                </i>
+                              </div>
                             </div>
-                          </div>
-                        </Card.Body>
+                          </Card.Body>
+                        )}
                       </Card>
                     </Form.Group>
                     <div className="d-flex justify-content-between">
@@ -825,7 +1204,7 @@ function TambahPasien({ onChangeTambahPasien }) {
                         </Button>
                       </div>
                       <div>
-                        <Button type="button" variant="primary" size="sm">
+                        <Button type="submit" variant="primary" size="sm">
                           <FontAwesomeIcon icon={faSave} className="me-1" />
                           Simpan
                         </Button>
