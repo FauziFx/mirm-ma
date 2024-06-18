@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "universal-cookie";
 
-function Navigation() {
+function Navigation({ user }) {
   const cookies = new Cookies();
   const toggleRef = useRef(null);
   const [menu, setMenu] = useState([
@@ -72,27 +72,17 @@ function Navigation() {
               <NavDropdown
                 title={
                   <>
-                    <Avatar
-                      name="Admin Ganteng"
-                      size={30}
-                      round
-                      className="me-1"
-                    />
-                    Admin Ganteng
+                    <Avatar name={user.nama} size={28} round className="me-1" />
+                    {user.nama}
                   </>
                 }
                 id="basic-nav-dropdown"
               >
                 <NavDropdown.Item href="#action/3.1">
-                  <Avatar
-                    name="Admin Ganteng"
-                    size={30}
-                    round
-                    className="me-1"
-                  />
-                  Admin Ganteng
+                  <Avatar name={user.nama} size={28} round className="me-1" />
+                  {user.nama}
                 </NavDropdown.Item>
-                <NavDropdown.Item disabled>Admin@Ganteng.com</NavDropdown.Item>
+                <NavDropdown.Item disabled>{user.username}</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
                   href="#action/3.4"

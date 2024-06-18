@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -7,8 +7,17 @@ import Dashboard from "./pages/Dashboard";
 import RekamMedis from "./pages/RekamMedis";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Navigation from "./components/Navigation";
+import Cookies from "universal-cookie";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
+  const cookies = new Cookies();
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const decode = jwtDecode(cookies.get("rm-ma-token"));
+    setUser(decode.user);
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/login",
@@ -18,7 +27,7 @@ function App() {
       element: <ProtectedRoutes />,
       children: [
         {
-          element: <Navigation />,
+          element: <Navigation user={user} />,
           children: [
             {
               path: "/",
