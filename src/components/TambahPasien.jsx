@@ -22,11 +22,11 @@ import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment-timezone";
 import "moment/dist/locale/id";
+import Swal from "sweetalert2";
 
 function TambahPasien({ onChangeTambahPasien }) {
   moment.locale("id");
   const API_URL = import.meta.env.VITE_API_URL;
-  const navigate = useNavigate();
   const cookies = new Cookies();
   const [barStatus, setBarStatus] = useState(33);
   const [dataOptik, setDataOptik] = useState([]);
@@ -57,6 +57,15 @@ function TambahPasien({ onChangeTambahPasien }) {
   const [checkItem, setCheckItem] = useState([
     ...list.map((x, id) => ({ id, ...x })),
   ]);
+
+  // Swal Toast
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+  });
 
   const getData = async () => {
     try {
@@ -104,7 +113,10 @@ function TambahPasien({ onChangeTambahPasien }) {
     e.preventDefault();
     await handleSubmitDataPribadi(e);
     closeTambahPasien();
-    alert("yeyy berhasill");
+    Toast.fire({
+      icon: "success",
+      title: "Data Berhasil Disimpan!",
+    });
   };
 
   const handleSubmitDataPribadi = async (e) => {
