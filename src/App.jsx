@@ -14,8 +14,11 @@ function App() {
   const cookies = new Cookies();
   const [user, setUser] = useState({});
   useEffect(() => {
-    const decode = jwtDecode(cookies.get("rm-ma-token"));
-    setUser(decode.user);
+    const token = cookies.get("rm-ma-token");
+    if (token) {
+      const decode = jwtDecode(token);
+      setUser(decode.user);
+    }
   }, []);
 
   const router = createBrowserRouter([

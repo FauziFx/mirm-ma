@@ -78,14 +78,14 @@ function Navigation({ user }) {
                 }
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="#action/3.1">
+                <NavDropdown.Item href="#">
                   <Avatar name={user.nama} size={28} round className="me-1" />
                   {user.nama}
                 </NavDropdown.Item>
                 <NavDropdown.Item disabled>{user.username}</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
-                  href="#action/3.4"
+                  href="#"
                   className="text-center"
                   onClick={() => signOut()}
                 >
