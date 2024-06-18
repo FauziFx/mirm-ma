@@ -26,10 +26,11 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(API_URL + "/login", {
+      const response = await axios.post(API_URL + "login", {
         username: dataLogin.username,
         password: dataLogin.password,
       });
+      console.log(response);
       if (response.data.success) {
         const token = response.data.token;
         cookies.set("rm-ma-token", token, {
