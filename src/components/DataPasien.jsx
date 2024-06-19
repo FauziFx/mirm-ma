@@ -556,7 +556,7 @@ function DataPasien() {
                             </Accordion.Header>
                             <Accordion.Body className="p-1">
                               {item.ukuran_lama == "n" && (
-                                <table className="table table-sm table-detail">
+                                <table className="table table-sm table-detail mb-0">
                                   <tbody>
                                     <tr>
                                       <td>Optik</td>
@@ -568,6 +568,35 @@ function DataPasien() {
                                       <td>:</td>
                                       <td>{item.pemeriksa}</td>
                                     </tr>
+                                    {item.ukuran_lama == "n" && (
+                                      <tr>
+                                        <td>Lampiran</td>
+                                        <td>:</td>
+                                        <td>
+                                          <Button
+                                            variant="primary"
+                                            size="sm"
+                                            className="mb-2"
+                                            onClick={() => {
+                                              const data = {
+                                                nama: detail.nama,
+                                                tanggal: moment(item.tanggal)
+                                                  .tz("Asia/Jakarta")
+                                                  .format("dddd, DD MMMM YYYY"),
+                                                url: item.url,
+                                              };
+                                              handleShowLampiran(data);
+                                            }}
+                                          >
+                                            <FontAwesomeIcon
+                                              icon={faFileImage}
+                                              className="me-1"
+                                            />
+                                            Lihat Lampiran
+                                          </Button>
+                                        </td>
+                                      </tr>
+                                    )}
                                   </tbody>
                                 </table>
                               )}
@@ -579,29 +608,6 @@ function DataPasien() {
                               >
                                 {item.keterangan}
                               </p>
-                              {item.ukuran_lama == "n" && (
-                                <Button
-                                  variant="primary"
-                                  size="sm"
-                                  className="mb-2"
-                                  onClick={() => {
-                                    const data = {
-                                      nama: detail.nama,
-                                      tanggal: moment(item.tanggal)
-                                        .tz("Asia/Jakarta")
-                                        .format("dddd, DD MMMM YYYY"),
-                                      url: item.url,
-                                    };
-                                    handleShowLampiran(data);
-                                  }}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faFileImage}
-                                    className="me-1"
-                                  />
-                                  Lihat Lampiran
-                                </Button>
-                              )}
                               <table className="table table-sm table-bordered table-detail">
                                 <thead>
                                   <tr>
