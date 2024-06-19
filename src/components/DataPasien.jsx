@@ -30,6 +30,7 @@ import Cookies from "universal-cookie";
 import moment from "moment-timezone";
 import "moment/dist/locale/id";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import Swal from "sweetalert2";
 
 function DataPasien() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -103,7 +104,11 @@ function DataPasien() {
           <Button variant="link" className="p-0 me-2 text-success">
             <FontAwesomeIcon icon={faEdit} />
           </Button>
-          <Button variant="link" className="p-0 me-2 text-danger">
+          <Button
+            variant="link"
+            className="p-0 me-2 text-danger"
+            onClick={() => confirmDelete(row.id, row.nama)}
+          >
             <FontAwesomeIcon icon={faTrashCan} />
           </Button>
         </>
@@ -112,6 +117,49 @@ function DataPasien() {
       right: true,
     },
   ];
+
+  // Swal Toast
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+  });
+
+  const confirmDelete = (id, nama) => {
+    Swal.fire({
+      html: `Apakah kamu mau menghapus semua data <b class="text-uppercase">${nama}</b> ?`,
+      showCancelButton: true,
+      confirmButtonText: "Hapus",
+      confirmButtonColor: "#d33",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        deletePasien(id);
+      }
+    });
+  };
+
+  const deletePasien = async (id) => {
+    try {
+      const response = await axios.delete(API_URL + "pasien/" + id, {
+        headers: {
+          Authorization: cookies.get("rm-ma-token"),
+        },
+      });
+      if (response.data.success) {
+        Toast.fire({
+          icon: "success",
+          title: "Data berhasil Dihapus!",
+        });
+        getData();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const resetFilter = () => {
     setNamaOptik("");
