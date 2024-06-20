@@ -39,6 +39,7 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import Swal from "sweetalert2";
 import LoadingOverlay from "react-loading-overlay-ts";
 import EditPasien from "./EditPasien";
+import WaPasien from "./WaPasien";
 
 function DataPasien() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -56,6 +57,7 @@ function DataPasien() {
   });
 
   const [dataEdit, setDataEdit] = useState({});
+  const [dataWA, setDataWA] = useState({});
 
   const handleShowLampiran = (data) => {
     setPreview(data);
@@ -119,7 +121,7 @@ function DataPasien() {
     {
       name: "Terkahir Periksa",
       selector: (row) => {
-        moment.locale("id", {
+        moment.updateLocale("id", {
           calendar: {
             lastDay: "[Kemarin]",
             sameDay: "[Hari Ini]",
@@ -155,7 +157,11 @@ function DataPasien() {
           >
             <FontAwesomeIcon icon={faEye} />
           </Button>
-          <Button variant="link" className="p-0 me-2 text-success">
+          <Button
+            variant="link"
+            className="p-0 me-2 text-success"
+            onClick={() => showWa(row.nama, row.nohp)}
+          >
             <FontAwesomeIcon icon={faWhatsapp} />
           </Button>
           <Button
@@ -219,6 +225,12 @@ function DataPasien() {
   const showEdit = async (row) => {
     setCrud((state) => ({ ...crudState, edit: true }));
     setDataEdit(row);
+  };
+
+  // Show WhatsApp
+  const showWa = (nama, nohp) => {
+    setCrud((state) => ({ ...crudState, wa: true }));
+    setDataWA({ nama: nama, nohp: nohp });
   };
 
   // Swal Toast
@@ -486,27 +498,37 @@ function DataPasien() {
                         <FontAwesomeIcon icon={faArrowLeft} className="me-1" />
                         Kembali
                       </Button>
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={() => {
-                          const dataShowEdit = {
-                            id: detail.id,
-                            nama: detail.nama,
-                            alamat: detail.alamat,
-                            ttl: detail.ttl,
-                            jenis_kelamin: detail.jenis_kelamin,
-                            pekerjaan: detail.pekerjaan,
-                            nohp: detail.nohp,
-                            riwayat: detail.riwayat,
-                            id_optik: detail.id_optik,
-                          };
-                          showEdit(dataShowEdit);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} className="me-1" />
-                        Edit
-                      </Button>
+                      <div>
+                        <Button
+                          variant="success"
+                          size="sm"
+                          className="me-1"
+                          onClick={() => showWa(detail.nama, detail.nohp)}
+                        >
+                          <FontAwesomeIcon icon={faWhatsapp} size="lg" />
+                        </Button>
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          onClick={() => {
+                            const dataShowEdit = {
+                              id: detail.id,
+                              nama: detail.nama,
+                              alamat: detail.alamat,
+                              ttl: detail.ttl,
+                              jenis_kelamin: detail.jenis_kelamin,
+                              pekerjaan: detail.pekerjaan,
+                              nohp: detail.nohp,
+                              riwayat: detail.riwayat,
+                              id_optik: detail.id_optik,
+                            };
+                            showEdit(dataShowEdit);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faEdit} className="me-1" />
+                          Edit
+                        </Button>
+                      </div>
                     </div>
                     <h5 className="text-center mt-1 text-uppercase">
                       {detail.nama}
@@ -543,7 +565,7 @@ function DataPasien() {
                           <td>{detail.ttl}</td>
                         </tr>
                         <tr>
-                          <td className="fw-semibold">Jenis Kelamain</td>
+                          <td className="fw-semibold">Jenis Kelamin</td>
                           <td>:</td>
                           <td>{detail.jenis_kelamin}</td>
                         </tr>
@@ -700,6 +722,9 @@ function DataPasien() {
               getData={getData}
             />
           )}
+
+          {/* WhatsApp */}
+          {crud.wa === true && <WaPasien dataWA={dataWA} setCrud={setCrud} />}
         </Card.Body>
       </Card>
 
