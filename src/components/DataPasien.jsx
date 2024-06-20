@@ -232,7 +232,7 @@ function DataPasien() {
 
   const confirmDelete = (id, nama) => {
     Swal.fire({
-      html: `Apakah kamu mau menghapus semua data <b class="text-uppercase">${nama}</b> ?`,
+      html: `<p class="mb-0">Apakah kamu mau menghapus semua data <br/> <b class="text-uppercase">${nama}</b> ?</p>`,
       showCancelButton: true,
       confirmButtonText: "Hapus",
       confirmButtonColor: "#d33",
