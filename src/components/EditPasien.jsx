@@ -92,7 +92,6 @@ function EditPasien({ dataOptik, setCrud, dataPasien, getData }) {
   };
 
   useEffect(() => {
-    console.log(dataPasien);
     let date = new Date(dataPasien.ttl.split(",")[1]);
     setDataPribadi({
       id: dataPasien.id,
