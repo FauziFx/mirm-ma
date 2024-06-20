@@ -38,6 +38,7 @@ import "moment/dist/locale/id";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import Swal from "sweetalert2";
 import LoadingOverlay from "react-loading-overlay-ts";
+import EditPasien from "./EditPasien";
 
 function DataPasien() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -54,6 +55,8 @@ function DataPasien() {
     url: "",
   });
 
+  const [dataEdit, setDataEdit] = useState({});
+
   const handleShowLampiran = (data) => {
     setPreview(data);
     setShowLampiran(true);
@@ -66,6 +69,7 @@ function DataPasien() {
 
   // Detail
   const [detail, setDetail] = useState({
+    id: "",
     nama: "",
     alamat: "",
     ttl: "",
@@ -75,6 +79,8 @@ function DataPasien() {
     nohp: "",
     riwayat: "",
     tanggal: "",
+    nama_optik: "",
+    id_optik: "",
     dataKunjungan: [],
   });
 
@@ -152,7 +158,11 @@ function DataPasien() {
           <Button variant="link" className="p-0 me-2 text-success">
             <FontAwesomeIcon icon={faWhatsapp} />
           </Button>
-          <Button variant="link" className="p-0 me-2 text-success">
+          <Button
+            variant="link"
+            className="p-0 me-2 text-success"
+            onClick={() => showEdit(row)}
+          >
             <FontAwesomeIcon icon={faEdit} />
           </Button>
           <Button
@@ -184,6 +194,7 @@ function DataPasien() {
         const year = ttl.substr(ttl.length - 5);
         const usia = Math.abs(year - new Date().getFullYear());
         setDetail({
+          id: row.id,
           nama: row.nama,
           alamat: row.alamat,
           ttl: row.ttl,
@@ -193,6 +204,8 @@ function DataPasien() {
           nohp: row.nohp,
           riwayat: row.riwayat,
           tanggal: row.tanggal,
+          nama_optik: row.nama_optik,
+          id_optik: row.id_optik,
           dataKunjungan: response.data.data,
         });
         setLoadingDetail(false);
@@ -200,6 +213,12 @@ function DataPasien() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // Show Edit
+  const showEdit = async (row) => {
+    setCrud((state) => ({ ...crudState, edit: true }));
+    setDataEdit(row);
   };
 
   // Swal Toast
@@ -467,7 +486,24 @@ function DataPasien() {
                         <FontAwesomeIcon icon={faArrowLeft} className="me-1" />
                         Kembali
                       </Button>
-                      <Button variant="primary" size="sm">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => {
+                          const dataShowEdit = {
+                            id: detail.id,
+                            nama: detail.nama,
+                            alamat: detail.alamat,
+                            ttl: detail.ttl,
+                            jenis_kelamin: detail.jenis_kelamin,
+                            pekerjaan: detail.pekerjaan,
+                            nohp: detail.nohp,
+                            riwayat: detail.riwayat,
+                            id_optik: detail.id_optik,
+                          };
+                          showEdit(dataShowEdit);
+                        }}
+                      >
                         <FontAwesomeIcon icon={faEdit} className="me-1" />
                         Edit
                       </Button>
@@ -485,6 +521,11 @@ function DataPasien() {
                               .tz("Asia/Jakarta")
                               .format("DD MMMM YYYY")}
                           </td>
+                        </tr>
+                        <tr>
+                          <td className="fw-semibold">Optik</td>
+                          <td>:</td>
+                          <td>{detail.nama_optik}</td>
                         </tr>
                         <tr>
                           <td className="fw-semibold">Alamat</td>
@@ -648,6 +689,16 @@ function DataPasien() {
                 </Row>
               </LoadingOverlay>
             </>
+          )}
+
+          {/* Edit */}
+          {crud.edit === true && (
+            <EditPasien
+              dataOptik={dataOptik}
+              setCrud={setCrud}
+              dataPasien={dataEdit}
+              getData={getData}
+            />
           )}
         </Card.Body>
       </Card>
