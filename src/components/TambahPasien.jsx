@@ -394,15 +394,25 @@ function TambahPasien({ onChangeTambahPasien }) {
       <Card className="shadow">
         <Card.Body className="pt-1">
           <ProgressBar animated now={barStatus} style={{ height: "10px" }} />
-          <h5 className="text-center mt-2">
-            {step == 1
-              ? "Data Pribadi"
-              : step == 2
-              ? "Ukuran Lama"
-              : "Ukuran Baru"}
-          </h5>
           <Row>
-            <Col md={{ span: 6, offset: 3 }}>
+            <Col md={{ span: 6, offset: 3 }} className="pt-2">
+              {step == 1 && (
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() => closeTambahPasien()}
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} className="me-1" />
+                  Kembali
+                </Button>
+              )}
+              <h5 className="text-center">
+                {step == 1
+                  ? "Data Pribadi"
+                  : step == 2
+                  ? "Ukuran Lama"
+                  : "Ukuran Baru"}
+              </h5>
               {/* Step 1 */}
               {step == 1 && (
                 <>
