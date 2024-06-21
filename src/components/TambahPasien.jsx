@@ -1068,6 +1068,7 @@ function TambahPasien({ onChangeTambahPasien }) {
                         name="pemeriksa"
                         size="sm"
                         type="text"
+                        required
                         placeholder="Pemeriksa"
                         value={ukuranBaru.pemeriksa}
                         onChange={(e) => handleChangeUB(e)}
@@ -1214,7 +1215,18 @@ function TambahPasien({ onChangeTambahPasien }) {
                         </Button>
                       </div>
                       <div>
-                        <Button type="submit" variant="primary" size="sm">
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          size="sm"
+                          disabled={
+                            ukuranBaru.rsph.length === 0 ||
+                            ukuranBaru.lsph.length === 0 ||
+                            ukuranBaru.optik_id.length === 0 ||
+                            ukuranBaru.pemeriksa.length === 0 ||
+                            file.length === 0
+                          }
+                        >
                           <FontAwesomeIcon icon={faSave} className="me-1" />
                           Simpan
                         </Button>
