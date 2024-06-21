@@ -1,5 +1,6 @@
 import {
   faHospitalUser,
+  faSquarePlus,
   faTableList,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +9,7 @@ import React, { useState } from "react";
 import { Container, Tab, Nav, Card, Row, Col, Button } from "react-bootstrap";
 import DataPasien from "../components/DataPasien";
 import TambahPasien from "../components/TambahPasien";
+import KunjunganPasien from "../components/KunjunganPasien";
 
 function RekamMedis() {
   const [tambahPasien, setTambahPasien] = useState(false);
@@ -83,7 +85,23 @@ function RekamMedis() {
                 <DataPasien />
               )}
             </Tab.Pane>
-            <Tab.Pane eventKey="kunjungan-pasien">Kunjungan Pasien</Tab.Pane>
+            <Tab.Pane eventKey="kunjungan-pasien">
+              <Card className="mb-0 mt-2">
+                <Card.Header>
+                  <Row>
+                    <Col md={6} sm={6} xs={6}>
+                      <h5 className="m-0">Data Kunjungan Pasien</h5>
+                    </Col>
+                    <Col md={6} sm={6} xs={6} className="text-end">
+                      <Button variant="primary" size="sm">
+                        <FontAwesomeIcon icon={faSquarePlus} /> Tambah Kunjungan
+                      </Button>
+                    </Col>
+                  </Row>
+                </Card.Header>
+              </Card>
+              <KunjunganPasien />
+            </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       </Container>
