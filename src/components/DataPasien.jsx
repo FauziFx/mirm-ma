@@ -327,30 +327,19 @@ function DataPasien() {
       const THISMONTH = moment().clone().subtract(30, "days").startOf("day");
       const _3MONTH = moment().clone().subtract(90, "day").startOf("day");
       const _6MONTH = moment().clone().subtract(180, "day").startOf("day");
+      const tglPeriksa = moment(item.terakhir_periksa).format("YYYY-MM-DD");
       if (terakhirPeriksa == "Hari Ini") {
-        return moment(
-          moment(item.terakhir_periksa).format("YYYY-MM-DD")
-        ).isSame(TODAY, "d");
+        return moment(tglPeriksa).isSame(TODAY, "d");
       } else if (terakhirPeriksa == "Kemarin") {
-        return moment(
-          moment(item.terakhir_periksa).format("YYYY-MM-DD")
-        ).isSame(YESTERDAY, "d");
+        return moment(tglPeriksa).isSame(YESTERDAY, "d");
       } else if (terakhirPeriksa == "Minggu Ini") {
-        return moment(
-          moment(item.terakhir_periksa).format("YYYY-MM-DD")
-        ).isAfter(THISWEEK);
+        return moment(tglPeriksa).isAfter(THISWEEK);
       } else if (terakhirPeriksa == "Bulan Ini") {
-        return moment(
-          moment(item.terakhir_periksa).format("YYYY-MM-DD")
-        ).isAfter(THISMONTH);
+        return moment(tglPeriksa).isAfter(THISMONTH);
       } else if (terakhirPeriksa == "3 Bulan Lalu") {
-        return moment(
-          moment(item.terakhir_periksa).format("YYYY-MM-DD")
-        ).isAfter(_3MONTH);
+        return moment(tglPeriksa).isAfter(_3MONTH);
       } else if (terakhirPeriksa == "6 Bulan Lalu") {
-        return moment(
-          moment(item.terakhir_periksa).format("YYYY-MM-DD")
-        ).isAfter(_6MONTH);
+        return moment(tglPeriksa).isAfter(_6MONTH);
       } else if (terakhirPeriksa == "Belum Periksa") {
         return item.terakhir_periksa == null;
       } else {
