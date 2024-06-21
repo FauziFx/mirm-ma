@@ -10,9 +10,11 @@ import { Container, Tab, Nav, Card, Row, Col, Button } from "react-bootstrap";
 import DataPasien from "../components/DataPasien";
 import TambahPasien from "../components/TambahPasien";
 import KunjunganPasien from "../components/KunjunganPasien";
+import TambahKunjungan from "../components/TambahKunjungan";
 
 function RekamMedis() {
   const [tambahPasien, setTambahPasien] = useState(false);
+  const [tambahKunjungan, setTambahKunjungan] = useState(false);
   return (
     <>
       <Container className="page-container">
@@ -90,17 +92,37 @@ function RekamMedis() {
                 <Card.Header>
                   <Row>
                     <Col md={6} sm={6} xs={6}>
-                      <h5 className="m-0">Data Kunjungan Pasien</h5>
+                      <h5 className="m-0">
+                        {tambahKunjungan ? "Tambah" : "Data"} Kunjungan
+                      </h5>
                     </Col>
                     <Col md={6} sm={6} xs={6} className="text-end">
-                      <Button variant="primary" size="sm">
-                        <FontAwesomeIcon icon={faSquarePlus} /> Tambah Kunjungan
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => setTambahKunjungan(!tambahKunjungan)}
+                      >
+                        {tambahKunjungan ? (
+                          <span>
+                            <FontAwesomeIcon icon={faHospitalUser} /> Data
+                            Kunjungan
+                          </span>
+                        ) : (
+                          <span>
+                            <FontAwesomeIcon icon={faSquarePlus} /> Tambah
+                            Kunjungan
+                          </span>
+                        )}
                       </Button>
                     </Col>
                   </Row>
                 </Card.Header>
               </Card>
-              <KunjunganPasien />
+              {tambahKunjungan ? (
+                <TambahKunjungan onChangeTambahKunjungan={setTambahKunjungan} />
+              ) : (
+                <KunjunganPasien />
+              )}
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
