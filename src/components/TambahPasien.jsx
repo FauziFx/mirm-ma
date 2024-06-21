@@ -1122,6 +1122,7 @@ function TambahPasien({ onChangeTambahPasien }) {
                           size="sm"
                           type="text"
                           value={keterangan.harga}
+                          placeholder="0"
                           onChange={(e) =>
                             setKeterangan((prev) => ({
                               ...prev,
