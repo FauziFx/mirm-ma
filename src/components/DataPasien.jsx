@@ -655,7 +655,7 @@ function DataPasien() {
                               <b>Keterangan :</b>
                               <br />
                               <p
-                                className="mb-1 ps-2"
+                                className="mb-1 ps-2 table-detail"
                                 style={{ whiteSpace: "pre-wrap" }}
                               >
                                 {item.keterangan}
