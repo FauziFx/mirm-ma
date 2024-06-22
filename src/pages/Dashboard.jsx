@@ -57,13 +57,12 @@ function Dashboard() {
                   jenisnya atau bisa langsung mencarinya berdasarkan power
                   lensanya
                 </p>
-                <Button
-                  className="text-white"
-                  variant="primary w-100"
-                  size="lg"
+                <Link
+                  to="stok-lensa"
+                  className="text-white btn btn-primary w-100 btn-lg"
                 >
                   Selengkapnya
-                </Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -80,13 +79,12 @@ function Dashboard() {
                   Kamu bisa melihat dan mencatat data pasien yang datang ke
                   Optik kamu, baik itu pasien baru atau kunjungan pasien lama
                 </p>
-                <Button
-                  className="text-white"
-                  variant="primary w-100"
-                  size="lg"
+                <Link
+                  to="/rekam-medis"
+                  className="text-white btn btn-primary w-100 btn-lg"
                 >
                   Selengkapnya
-                </Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -103,13 +101,12 @@ function Dashboard() {
                   Kamu bisa melihat semua data kartu garansi pelanggan yang
                   tercatat di semua Optik kamu dan melakukan klaim garansi nya
                 </p>
-                <Button
-                  className="text-white"
-                  variant="primary w-100"
-                  size="lg"
+                <Link
+                  to="/garansi"
+                  className="text-white btn btn-primary w-100 btn-lg"
                 >
                   Selengkapnya
-                </Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
