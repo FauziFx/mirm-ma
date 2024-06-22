@@ -1,15 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBoxesStacked,
-  faCertificate,
-  faLaptopMedical,
-} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Typewriter from "typewriter-effect";
-import { Button, Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import useDocumentTitle from "../utils/useDocumentTitle";
 
 function Dashboard() {
+  useDocumentTitle("Dashboard");
   return (
     <main className="container">
       <div className="d-flex align-items-center p-3 my-3 text-white bg-primary rounded shadow-sm">

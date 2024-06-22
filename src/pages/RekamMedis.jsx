@@ -11,8 +11,10 @@ import DataPasien from "../components/DataPasien";
 import TambahPasien from "../components/TambahPasien";
 import KunjunganPasien from "../components/KunjunganPasien";
 import TambahKunjungan from "../components/TambahKunjungan";
+import useDocumentTitle from "../utils/useDocumentTitle";
 
 function RekamMedis() {
+  useDocumentTitle("Rekam Medis");
   const [tambahPasien, setTambahPasien] = useState(false);
   const [tambahKunjungan, setTambahKunjungan] = useState(false);
   return (

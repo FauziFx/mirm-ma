@@ -5,12 +5,10 @@ import {
   faEdit,
   faEye,
   faFileImage,
-  faFilter,
   faFilterCircleXmark,
   faMagnifyingGlass,
   faStore,
   faTrashCan,
-  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -20,7 +18,6 @@ import {
   Row,
   Col,
   Card,
-  Dropdown,
   FormControl,
   InputGroup,
   Form,

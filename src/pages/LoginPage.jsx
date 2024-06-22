@@ -5,8 +5,10 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import useDocumentTitle from "../utils/useDocumentTitle";
 
 function LoginPage() {
+  useDocumentTitle("Login");
   const API_URL = import.meta.env.VITE_API_URL;
   const [isError, setIsError] = useState("");
   const navigate = useNavigate();
