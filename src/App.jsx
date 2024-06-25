@@ -9,6 +9,7 @@ import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Navigation from "./components/Navigation";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
+import Garansi from "./pages/Garansi";
 
 function App() {
   const cookies = new Cookies();
@@ -43,6 +44,10 @@ function App() {
             {
               path: "/rekam-medis",
               element: <RekamMedis />,
+            },
+            {
+              path: "/garansi",
+              element: <Garansi />,
             },
           ],
         },
