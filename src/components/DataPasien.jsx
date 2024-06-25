@@ -314,7 +314,9 @@ function DataPasien() {
       );
     });
     const filterNamaOptik = filterSearch.filter((item) => {
-      return item.id_optik.toString().includes(namaOptik.split("-")[0]);
+      return (item.id_optik + "-" + item.nama_optik)
+        .toLowerCase()
+        .includes(namaOptik.toLocaleLowerCase());
     });
 
     const filterTglPeriksa = filterNamaOptik.filter((item) => {

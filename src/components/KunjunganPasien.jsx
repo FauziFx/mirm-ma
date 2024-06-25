@@ -245,9 +245,10 @@ function KunjunganPasien() {
           .includes(search.toLocaleLowerCase())
       );
     });
-    const filterOptik = namaOptik.split("-");
     const filterNamaOptik = filterSearch.filter((item) => {
-      return (item.optik_id || "").toString().includes(filterOptik[0]);
+      return (item.optik_id + "-" + item.nama_optik)
+        .toLowerCase()
+        .includes(namaOptik.toLocaleLowerCase());
     });
 
     const filterTglPeriksa = filterNamaOptik.filter((item) => {
