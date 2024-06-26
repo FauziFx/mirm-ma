@@ -305,16 +305,16 @@ function EditPasien({ dataOptik, setCrud, dataPasien, getData }) {
               variant="primary"
               size="sm"
               className="me-1"
-              //   disabled={
-              //     dataPribadi.nama.length === 0 ||
-              //     dataPribadi.alamat.length === 0 ||
-              //     dataPribadi.tempat.length === 0 ||
-              //     dataPribadi.tanggal_lahir.length === 0 ||
-              //     dataPribadi.jenis_kelamin.length === 0 ||
-              //     dataPribadi.pekerjaan.length === 0 ||
-              //     dataPribadi.nohp.length === 0 ||
-              //     dataPribadi.id_optik.length === 0
-              //   }
+              disabled={
+                dataPribadi.nama.length === 0 ||
+                dataPribadi.alamat.length === 0 ||
+                dataPribadi.tempat.length === 0 ||
+                dataPribadi.tanggal_lahir.length === 0 ||
+                dataPribadi.jenis_kelamin.length === 0 ||
+                dataPribadi.pekerjaan.length === 0 ||
+                dataPribadi.nohp.length === 0 ||
+                dataPribadi.id_optik.length === 0
+              }
             >
               <FontAwesomeIcon icon={faSave} className="me-1" />
               Simpan
