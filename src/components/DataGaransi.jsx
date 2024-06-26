@@ -27,6 +27,7 @@ import moment from "moment-timezone";
 import "moment/dist/locale/id";
 import axios from "axios";
 import LoadingOverlay from "react-loading-overlay-ts";
+import KlaimGaransi from "./KlaimGaransi";
 
 function DataGaransi() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -40,6 +41,14 @@ function DataGaransi() {
   // filter
   const [search, setSearch] = useState("");
   const [namaOptik, setNamaOptik] = useState("");
+
+  const [dataGaransi, setDataGaransi] = useState({
+    tanggal: "",
+    garansi_id: "",
+    nama: "",
+    frame: "",
+    lensa: "",
+  });
 
   // CRUD
   const crudState = {
@@ -115,6 +124,17 @@ function DataGaransi() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const showEdit = (row) => {
+    setDataGaransi({
+      tanggal: moment().locale("ID").format("YYYY-MM-DD"),
+      garansi_id: row.id,
+      nama: row.nama.toUpperCase(),
+      frame: row.frame.toUpperCase(),
+      lensa: row.lensa.toUpperCase(),
+    });
+    setCrud((state) => ({ ...crudState, klaim: true }));
   };
 
   const garansiIsExpired = async (expiredDate) => {
@@ -198,7 +218,11 @@ function DataGaransi() {
       name: "Action",
       selector: (row) => (
         <>
-          <Button variant="link" className="p-0 me-3 text-success">
+          <Button
+            variant="link"
+            className="p-0 me-3 text-success"
+            onClick={() => showEdit(row)}
+          >
             <FontAwesomeIcon icon={faHandHoldingMedical} />
           </Button>
           <Button
@@ -543,6 +567,14 @@ function DataGaransi() {
                 </Row>
               </LoadingOverlay>
             </>
+          )}
+          {crud.klaim === true && (
+            <KlaimGaransi
+              dataOptik={dataOptik}
+              setCrud={setCrud}
+              getData={getData}
+              dataGaransi={dataGaransi}
+            />
           )}
         </Card.Body>
       </Card>
