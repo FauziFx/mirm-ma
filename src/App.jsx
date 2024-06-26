@@ -10,6 +10,7 @@ import Navigation from "./components/Navigation";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 import Garansi from "./pages/Garansi";
+import Error404 from "./pages/error404";
 
 function App() {
   const cookies = new Cookies();
@@ -52,6 +53,10 @@ function App() {
           ],
         },
       ],
+    },
+    {
+      path: "/*",
+      element: <Error404 />,
     },
   ]);
 
