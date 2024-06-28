@@ -54,7 +54,7 @@ function Dashboard() {
                   lensanya
                 </p>
                 <Link
-                  to="stok-lensa"
+                  to="/stok-lensa"
                   className="text-white btn btn-primary w-100 btn-lg"
                 >
                   Selengkapnya
