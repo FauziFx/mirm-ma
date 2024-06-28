@@ -5,6 +5,7 @@ import useDocumentTitle from "../utils/useDocumentTitle";
 
 import CekStok1 from "../components/CekStok1";
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
+import CekStok2 from "../components/CekStok2";
 
 function StokLensa() {
   useDocumentTitle("Stok Lensa");
@@ -72,7 +73,7 @@ function StokLensa() {
                 </Row>
               </Card.Header>
             </Card>
-            Cek Stok 2
+            <CekStok2 />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
