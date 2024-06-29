@@ -51,7 +51,7 @@ function App() {
             },
             {
               path: "/rekam-medis",
-              element: <RekamMedis />,
+              element: <RekamMedis user={user} />,
             },
             {
               path: "/garansi",
@@ -59,7 +59,7 @@ function App() {
             },
             {
               path: "/data-optik",
-              element: <DataOptik />,
+              element: <DataOptik user={user} />,
             },
             {
               path: "/pengaturan",

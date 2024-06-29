@@ -28,7 +28,7 @@ import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import useDocumentTitle from "../utils/useDocumentTitle";
 
-function DataOptik() {
+function DataOptik({ user }) {
   useDocumentTitle("Data Optik");
   const API_URL = import.meta.env.VITE_API_URL;
   const cookies = new Cookies();
@@ -83,6 +83,7 @@ function DataOptik() {
         </>
       ),
       width: "auto",
+      omit: user.role == "user",
     },
   ];
 
@@ -239,27 +240,31 @@ function DataOptik() {
               </h5>
             </Col>
             <Col md={6} sm={6} xs={6} className="text-end">
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={() => {
-                  {
-                    crud.show === true
-                      ? setCrud((state) => ({ ...crudState, tambah: true }))
-                      : setCrud((state) => ({ ...crudState, show: true }));
-                  }
-                }}
-              >
-                {crud.show === true ? (
-                  <span>
-                    <FontAwesomeIcon icon={faSquarePlus} /> Tambah Optik
-                  </span>
-                ) : (
-                  <span>
-                    <FontAwesomeIcon icon={faStore} /> Data Optik
-                  </span>
-                )}
-              </Button>
+              {user.role == "admin" && (
+                <>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => {
+                      {
+                        crud.show === true
+                          ? setCrud((state) => ({ ...crudState, tambah: true }))
+                          : setCrud((state) => ({ ...crudState, show: true }));
+                      }
+                    }}
+                  >
+                    {crud.show === true ? (
+                      <span>
+                        <FontAwesomeIcon icon={faSquarePlus} /> Tambah Optik
+                      </span>
+                    ) : (
+                      <span>
+                        <FontAwesomeIcon icon={faStore} /> Data Optik
+                      </span>
+                    )}
+                  </Button>
+                </>
+              )}
             </Col>
           </Row>
         </Card.Header>

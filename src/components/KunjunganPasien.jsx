@@ -31,7 +31,7 @@ import "moment/dist/locale/id";
 import LoadingOverlay from "react-loading-overlay-ts";
 import Swal from "sweetalert2";
 
-function KunjunganPasien() {
+function KunjunganPasien({ user }) {
   const API_URL = import.meta.env.VITE_API_URL;
   const cookies = new Cookies();
   const [data, setData] = useState([]);
@@ -196,15 +196,17 @@ function KunjunganPasien() {
           >
             <FontAwesomeIcon icon={faEye} />
           </Button>
-          <Button
-            variant="link"
-            className="p-0 me-2 text-danger"
-            onClick={() =>
-              confirmDelete(row.id, row.nama, row.image, row.tanggal_periksa)
-            }
-          >
-            <FontAwesomeIcon icon={faTrashCan} />
-          </Button>
+          {user.role == "admin" && (
+            <Button
+              variant="link"
+              className="p-0 me-2 text-danger"
+              onClick={() =>
+                confirmDelete(row.id, row.nama, row.image, row.tanggal_periksa)
+              }
+            >
+              <FontAwesomeIcon icon={faTrashCan} />
+            </Button>
+          )}
         </>
       ),
       width: "auto",

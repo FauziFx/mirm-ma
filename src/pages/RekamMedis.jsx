@@ -13,8 +13,9 @@ import KunjunganPasien from "../components/KunjunganPasien";
 import TambahKunjungan from "../components/TambahKunjungan";
 import useDocumentTitle from "../utils/useDocumentTitle";
 
-function RekamMedis() {
+function RekamMedis({ user }) {
   useDocumentTitle("Rekam Medis");
+  const [dataUser, setDataUser] = useState(user);
   const [tambahPasien, setTambahPasien] = useState(false);
   const [tambahKunjungan, setTambahKunjungan] = useState(false);
   return (
@@ -86,7 +87,7 @@ function RekamMedis() {
               {tambahPasien ? (
                 <TambahPasien onChangeTambahPasien={setTambahPasien} />
               ) : (
-                <DataPasien />
+                <DataPasien user={dataUser} />
               )}
             </Tab.Pane>
             <Tab.Pane eventKey="kunjungan-pasien">
@@ -123,7 +124,7 @@ function RekamMedis() {
               {tambahKunjungan ? (
                 <TambahKunjungan onChangeTambahKunjungan={setTambahKunjungan} />
               ) : (
-                <KunjunganPasien />
+                <KunjunganPasien user={dataUser} />
               )}
             </Tab.Pane>
           </Tab.Content>

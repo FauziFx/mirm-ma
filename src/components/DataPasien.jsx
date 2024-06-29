@@ -38,7 +38,7 @@ import LoadingOverlay from "react-loading-overlay-ts";
 import EditPasien from "./EditPasien";
 import WaPasien from "./WaPasien";
 
-function DataPasien() {
+function DataPasien({ user }) {
   const API_URL = import.meta.env.VITE_API_URL;
   const cookies = new Cookies();
   const navigate = useNavigate();
@@ -161,20 +161,24 @@ function DataPasien() {
           >
             <FontAwesomeIcon icon={faWhatsapp} />
           </Button>
-          <Button
-            variant="link"
-            className="p-0 me-2 text-success"
-            onClick={() => showEdit(row)}
-          >
-            <FontAwesomeIcon icon={faEdit} />
-          </Button>
-          <Button
-            variant="link"
-            className="p-0 me-2 text-danger"
-            onClick={() => confirmDelete(row.id, row.nama)}
-          >
-            <FontAwesomeIcon icon={faTrashCan} />
-          </Button>
+          {user.role == "admin" && (
+            <>
+              <Button
+                variant="link"
+                className="p-0 me-2 text-success"
+                onClick={() => showEdit(row)}
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </Button>
+              <Button
+                variant="link"
+                className="p-0 me-2 text-danger"
+                onClick={() => confirmDelete(row.id, row.nama)}
+              >
+                <FontAwesomeIcon icon={faTrashCan} />
+              </Button>
+            </>
+          )}
         </>
       ),
       width: "auto",
