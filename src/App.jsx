@@ -13,6 +13,7 @@ import Garansi from "./pages/Garansi";
 import Error404 from "./pages/Error404";
 import StokLensa from "./pages/StokLensa";
 import DataOptik from "./pages/DataOptik";
+import Pengaturan from "./pages/Pengaturan";
 
 function App() {
   const cookies = new Cookies();
@@ -59,6 +60,10 @@ function App() {
             {
               path: "/data-optik",
               element: <DataOptik />,
+            },
+            {
+              path: "/pengaturan",
+              element: <Pengaturan />,
             },
           ],
         },

@@ -31,6 +31,10 @@ function Navigation({ user }) {
       nama: "Data Optik",
       link: "/data-optik",
     },
+    {
+      nama: "Pengaturan",
+      link: "/pengaturan",
+    },
   ]);
 
   const signOut = () => {
@@ -78,7 +82,7 @@ function Navigation({ user }) {
                 }
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="#">
+                <NavDropdown.Item href="/pengaturan">
                   <Avatar name={user.nama} size={28} round className="me-1" />
                   {user.nama}
                 </NavDropdown.Item>

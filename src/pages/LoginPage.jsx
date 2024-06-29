@@ -32,7 +32,6 @@ function LoginPage() {
         username: dataLogin.username,
         password: dataLogin.password,
       });
-      console.log(response);
       if (response.data.success) {
         const token = response.data.token;
         cookies.set("rm-ma-token", token, {
