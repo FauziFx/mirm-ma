@@ -12,6 +12,7 @@ import { jwtDecode } from "jwt-decode";
 import Garansi from "./pages/Garansi";
 import Error404 from "./pages/Error404";
 import StokLensa from "./pages/StokLensa";
+import DataOptik from "./pages/DataOptik";
 
 function App() {
   const cookies = new Cookies();
@@ -54,6 +55,10 @@ function App() {
             {
               path: "/garansi",
               element: <Garansi />,
+            },
+            {
+              path: "/data-optik",
+              element: <DataOptik />,
             },
           ],
         },
