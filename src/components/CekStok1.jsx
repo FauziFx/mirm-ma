@@ -18,6 +18,7 @@ import {
 } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import Cookies from "universal-cookie";
+import LoadingOverlay from "react-loading-overlay-ts";
 
 function CekStok1() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -26,6 +27,8 @@ function CekStok1() {
   const [filter, setFilter] = useState([]);
   const [dataStok, setDataStok] = useState([]);
   const [filterStok, setFilterStok] = useState([]);
+  const [loadingData, setLoadingData] = useState(false);
+  const [loadingStok, setLoadingStok] = useState(false);
 
   // Filter
   const [search, setSearch] = useState("");
@@ -73,6 +76,8 @@ function CekStok1() {
 
   const getStok = async (namaLensa) => {
     try {
+      setLoadingStok(true);
+      setSearch("");
       const response = await axios.get(API_URL + "stok", {
         params: {
           nama_lensa: namaLensa,
@@ -85,7 +90,7 @@ function CekStok1() {
         setDataStok(response.data.data);
         setFilterStok(response.data.data);
         setCrud((state) => ({ ...stokState, stok: true }));
-        console.log(response.data.data);
+        setLoadingStok(false);
       }
     } catch (error) {
       console.log(error);
@@ -94,6 +99,7 @@ function CekStok1() {
 
   const getData = async () => {
     try {
+      setLoadingData(true);
       const response = await axios.get(API_URL + "lensa", {
         headers: {
           Authorization: cookies.get("rm-ma-token"),
@@ -102,6 +108,7 @@ function CekStok1() {
       if (response.data.success) {
         setData(response.data.data);
         setFilter(response.data.data);
+        setLoadingData(false);
       }
     } catch (error) {
       console.log(error);
@@ -124,7 +131,7 @@ function CekStok1() {
     let filterSearch = dataStok.filter((item) => {
       return item.nama_varian
         .toLowerCase()
-        .includes(search.toLocaleLowerCase());
+        .includes(searchStok.toLocaleLowerCase());
     });
     setFilterStok(filterSearch);
   }, [searchStok]);
@@ -176,16 +183,22 @@ function CekStok1() {
                 )}
               </ButtonToolbar>
             </Row>
-            <DataTable
-              className="mw-100"
-              columns={columns}
-              data={filter}
-              pagination
-              paginationPerPage={20}
-              customStyles={tableCustomStyles}
-              highlightOnHover
-              onRowClicked={(row) => getStok(row.nama)}
-            />
+            <LoadingOverlay
+              active={loadingData}
+              spinner
+              text="Sedang Memuat..."
+            >
+              <DataTable
+                className="mw-100"
+                columns={columns}
+                data={filter}
+                pagination
+                paginationPerPage={20}
+                customStyles={tableCustomStyles}
+                highlightOnHover
+                onRowClicked={(row) => getStok(row.nama)}
+              />
+            </LoadingOverlay>
           </>
         )}
         {crud.stok === true && (
@@ -196,9 +209,10 @@ function CekStok1() {
                   variant="default"
                   className="mb-2"
                   size="sm"
-                  onClick={() =>
-                    setCrud((state) => ({ ...stokState, lensa: true }))
-                  }
+                  onClick={() => {
+                    setCrud((state) => ({ ...stokState, lensa: true }));
+                    setSearchStok("");
+                  }}
                 >
                   <FontAwesomeIcon icon={faArrowLeft} className="me-1" />
                   Kembali
@@ -245,14 +259,20 @@ function CekStok1() {
                 )}
               </ButtonToolbar>
             </Row>
-            <DataTable
-              className="mw-100"
-              columns={columnsStok}
-              data={filterStok}
-              pagination
-              paginationPerPage={20}
-              customStyles={tableCustomStyles2}
-            />
+            <LoadingOverlay
+              active={loadingStok}
+              spinner
+              text="Sedang Memuat..."
+            >
+              <DataTable
+                className="mw-100"
+                columns={columnsStok}
+                data={filterStok}
+                pagination
+                paginationPerPage={20}
+                customStyles={tableCustomStyles2}
+              />
+            </LoadingOverlay>
           </>
         )}
       </Card.Body>
