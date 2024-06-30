@@ -65,6 +65,7 @@ function KunjunganPasien({ user }) {
   };
   const [crud, setCrud] = useState(crudState);
 
+  const [loadingData, setLoadingData] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
 
   // Detail
@@ -384,14 +385,20 @@ function KunjunganPasien({ user }) {
                   )}
                 </ButtonToolbar>
               </Row>
-              <DataTable
-                className="mw-100"
-                columns={columns}
-                data={filter}
-                pagination
-                paginationPerPage={20}
-                customStyles={tableCustomStyles}
-              />
+              <LoadingOverlay
+                active={loadingData}
+                spinner
+                text="Sedang Memuat..."
+              >
+                <DataTable
+                  className="mw-100"
+                  columns={columns}
+                  data={filter}
+                  pagination
+                  paginationPerPage={20}
+                  customStyles={tableCustomStyles}
+                />
+              </LoadingOverlay>
             </>
           )}
           {crud.detail === true && (

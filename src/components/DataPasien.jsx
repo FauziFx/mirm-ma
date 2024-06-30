@@ -45,6 +45,7 @@ function DataPasien({ user }) {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [dataOptik, setDataOptik] = useState([]);
+  const [loadingData, setLoadingData] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [showLampiran, setShowLampiran] = useState(false);
   const [preview, setPreview] = useState({
@@ -285,6 +286,7 @@ function DataPasien({ user }) {
 
   const getData = async () => {
     try {
+      setLoadingData(true);
       const optik = await axios.get(API_URL + "/optik");
       setDataOptik(optik.data.data);
       const response = await axios.get(API_URL + "/pasien", {
@@ -296,6 +298,7 @@ function DataPasien({ user }) {
       if (res.success) {
         setData(res.data);
         setFilter(res.data);
+        setLoadingData(false);
       } else {
         cookies.remove("rm-ma-token");
         return navigate("/login");
@@ -457,14 +460,20 @@ function DataPasien({ user }) {
                   )}
                 </ButtonToolbar>
               </Row>
-              <DataTable
-                className="mw-100"
-                columns={columns}
-                data={filter}
-                pagination
-                paginationPerPage={20}
-                customStyles={tableCustomStyles}
-              />
+              <LoadingOverlay
+                active={loadingData}
+                spinner
+                text="Sedang Memuat..."
+              >
+                <DataTable
+                  className="mw-100"
+                  columns={columns}
+                  data={filter}
+                  pagination
+                  paginationPerPage={20}
+                  customStyles={tableCustomStyles}
+                />
+              </LoadingOverlay>
             </>
           )}
 
