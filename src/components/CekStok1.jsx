@@ -93,7 +93,7 @@ function CekStok1() {
         setLoadingStok(false);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -111,7 +111,7 @@ function CekStok1() {
         setLoadingData(false);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

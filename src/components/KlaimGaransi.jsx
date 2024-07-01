@@ -62,7 +62,7 @@ function KlaimGaransi({ setCrud, getData, dataGaransi }) {
         title: response.data.message,
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

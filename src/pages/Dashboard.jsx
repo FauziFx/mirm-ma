@@ -33,7 +33,7 @@ function Dashboard() {
         }, 500);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -205,8 +205,8 @@ function Dashboard() {
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-2 text-gray-800">
                   Kamu bisa melihat dan mencatat data pasien yang datang ke
-                  Optik kamu, baik itu pasien baru atau kunjungan pasien lama.
-                  Kamu juga bisa menghubungi pasien melalui WhatsApp
+                  Optik, baik itu pasien baru atau kunjungan pasien lama. Kamu
+                  juga bisa menghubungi pasien melalui WhatsApp
                 </p>
               </Card.Body>
               <Card.Footer className="bg-white border-0">

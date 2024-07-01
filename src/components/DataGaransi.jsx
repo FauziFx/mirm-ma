@@ -122,7 +122,7 @@ function DataGaransi() {
       console.log(response.data.data);
       setCrud((state) => ({ ...crudState, detail: true }));
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -250,7 +250,7 @@ function DataGaransi() {
       setFilter(response.data.data);
       setLoadingData(false);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

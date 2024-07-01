@@ -47,7 +47,7 @@ function CekStok2() {
         setData(response.data.data);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

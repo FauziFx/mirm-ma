@@ -119,7 +119,7 @@ function TambahPasien({ onChangeTambahPasien }) {
       const optik = await axios.get(API_URL + "optik");
       setDataOptik(optik.data.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -264,7 +264,7 @@ function TambahPasien({ onChangeTambahPasien }) {
         return response.data.id;
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -301,7 +301,7 @@ function TambahPasien({ onChangeTambahPasien }) {
         }
       );
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
   // handle submit ALl (Data Pribadi, Ukuran lama*, Ukuran Baru)
@@ -371,7 +371,7 @@ function TambahPasien({ onChangeTambahPasien }) {
         console.log(response);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

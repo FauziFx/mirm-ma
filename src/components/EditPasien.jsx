@@ -87,7 +87,7 @@ function EditPasien({ dataOptik, setCrud, dataPasien, getData }) {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

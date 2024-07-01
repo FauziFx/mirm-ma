@@ -219,7 +219,7 @@ function DataPasien({ user }) {
         setLoadingDetail(false);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -274,7 +274,7 @@ function DataPasien({ user }) {
         getData();
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -304,7 +304,7 @@ function DataPasien({ user }) {
         return navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

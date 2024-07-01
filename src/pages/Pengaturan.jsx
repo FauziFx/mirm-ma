@@ -36,7 +36,7 @@ function Pengaturan() {
         id_optik: decode.id_optik,
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -94,7 +94,7 @@ function Pengaturan() {
         console.log(response.data);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

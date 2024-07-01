@@ -124,7 +124,7 @@ function DataOptik({ user }) {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -163,7 +163,7 @@ function DataOptik({ user }) {
         setCrud((state) => ({ ...crudState, show: true }));
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -193,7 +193,7 @@ function DataOptik({ user }) {
         setCrud((state) => ({ ...crudState, show: true }));
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -203,7 +203,7 @@ function DataOptik({ user }) {
       setData(response.data.data);
       setFilter(response.data.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

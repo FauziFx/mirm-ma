@@ -153,7 +153,7 @@ function KunjunganPasien({ user }) {
         getData();
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -230,7 +230,7 @@ function KunjunganPasien({ user }) {
         setFilter(res.data);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

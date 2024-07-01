@@ -238,7 +238,7 @@ function TambahKunjungan({ onChangeTambahKunjungan }) {
         console.log(response);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -257,7 +257,7 @@ function TambahKunjungan({ onChangeTambahKunjungan }) {
         setFilter(response.data.data);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
