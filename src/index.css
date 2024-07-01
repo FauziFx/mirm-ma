@@ -18,26 +18,6 @@ body {
   background-color: #f8f9fa;
 }
 
-@media (max-width: 991.98px) {
-  .offcanvas-collapse {
-    position: fixed;
-    top: 56px; /* Height of navbar */
-    bottom: 0;
-    left: 100%;
-    width: 100%;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    overflow-y: auto;
-    visibility: hidden;
-    background-color: #343a40;
-    transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  }
-  .offcanvas-collapse.open {
-    visibility: visible;
-    transform: translateX(-100%);
-  }
-}
-
 .nav-scroller {
   position: relative;
   z-index: 2;
@@ -100,4 +80,47 @@ button.btn-filter::after {
 
 .accordion-header button {
   padding: 8px;
+}
+
+.border-left-primary {
+  border-left: 0.35rem solid var(--bs-primary) !important;
+}
+
+.border-left-info {
+  border-left: 0.35rem solid var(--bs-info) !important;
+}
+
+.border-left-dark {
+  border-left: 0.35rem solid var(--bs-dark) !important;
+}
+
+.border-left-blue {
+  border-left: 0.35rem solid var(--bs-blue) !important;
+}
+
+.text-gray-300 {
+  color: #dddfeb !important;
+}
+
+.text-gray-800 {
+  color: #5a5c69 !important;
+}
+
+.text-blue {
+  color: var(--bs-blue);
+}
+
+.card-hover:hover {
+  transition: all 0.3s ease 0s;
+  transform: scale(1.05);
+}
+
+.img-hover:hover {
+  transition: all 0.3s ease 0s;
+  transform: scale(1.05);
+}
+
+.btn-hover:hover {
+  transition: all 0.3s ease 0s;
+  transform: scale(1.04);
 }
