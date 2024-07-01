@@ -54,10 +54,13 @@ function DataPasien({ user }) {
     url: "",
   });
 
+  const [loadImg, setLoadImg] = useState(false);
+
   const [dataEdit, setDataEdit] = useState({});
   const [dataWA, setDataWA] = useState({});
 
   const handleShowLampiran = (data) => {
+    setLoadImg(true);
     setPreview(data);
     setShowLampiran(true);
   };
@@ -744,7 +747,9 @@ function DataPasien({ user }) {
           </div>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <Image src={preview.url} fluid />
+          <LoadingOverlay active={loadImg} spinner text="Sedang Memuat...">
+            <Image src={preview.url} fluid onLoad={() => setLoadImg(false)} />
+          </LoadingOverlay>
         </Modal.Body>
       </Modal>
     </>
