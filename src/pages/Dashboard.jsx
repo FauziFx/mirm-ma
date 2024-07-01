@@ -239,7 +239,7 @@ function Dashboard() {
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-2 text-gray-800">
                   Kamu bisa melihat semua data kartu garansi pelanggan yang
-                  tercatat di semua Optik kamu dan melakukan klaim garansi nya
+                  tercatat di semua Optik dan melakukan klaim garansi nya
                 </p>
               </Card.Body>
               <Card.Footer className="bg-white border-0">
