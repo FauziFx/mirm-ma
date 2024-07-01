@@ -65,7 +65,7 @@ function LoginPage() {
         <Row className="justify-content-sm-center h-100">
           <Col sm={9} md={7} lg={5} xl={5} xxl={4}>
             <div className="text-center my-5">
-              <img src="/public/header.png" alt="" className="img-fluid" />
+              <img src="/header.png" alt="" className="img-fluid" />
             </div>
             <Card className="shadow-lg">
               <Card.Body className="p-5">
@@ -108,7 +108,7 @@ function LoginPage() {
                   <div className="d-flex align-items-center">
                     <input
                       type="submit"
-                      className="btn btn-indigo ms-auto w-100"
+                      className="btn btn-primary ms-auto w-100"
                       value="Login"
                       disabled={
                         dataLogin.username.length == 0 ||
@@ -120,7 +120,7 @@ function LoginPage() {
               </Card.Body>
             </Card>
             <div className="text-center mt-5 text-muted">
-              Copyright &copy; 2024 Murti Aji
+              Copyright &copy; 2024 MIRM MA
             </div>
           </Col>
         </Row>
