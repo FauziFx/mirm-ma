@@ -11,7 +11,18 @@ import Cookies from "universal-cookie";
 function EditPasien({ dataOptik, setCrud, dataPasien, getData }) {
   const API_URL = import.meta.env.VITE_API_URL;
   const cookies = new Cookies();
-  const [dataPribadi, setDataPribadi] = useState({});
+  const [dataPribadi, setDataPribadi] = useState({
+    id: "",
+    nama: "",
+    alamat: "",
+    tempat: "",
+    tanggal_lahir: "",
+    jenis_kelamin: "",
+    pekerjaan: "",
+    nohp: "",
+    riwayat: "",
+    id_optik: "",
+  });
   const list = [
     { name: "Hipertensi", check: false },
     { name: "Gula Darah", check: false },
