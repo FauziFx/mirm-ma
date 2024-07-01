@@ -154,6 +154,7 @@ function WaPasien({ dataWA, setCrud }) {
               <p className="text-muted" style={{ fontSize: "12px" }}>
                 * Pemberitahuan pengambilan kacamata <br />* Pemberitahuan
                 pemeriksaan mata secara berkala <br />* Pemberitahuan lainnya
+                <br />* Bebas apa aja
               </p>
               <div className="text-end">
                 <Button type="submit" variant="success" className="text-end">
