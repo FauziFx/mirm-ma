@@ -16,6 +16,7 @@ import {
   InputGroup,
   Button,
   Image,
+  Spinner,
 } from "react-bootstrap";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -33,6 +34,8 @@ function TambahPasien({ onChangeTambahPasien }) {
   const [step, setStep] = useState(1);
   const [usia, setUsia] = useState("");
   const [token, setToken] = useState("");
+
+  const [loadingBtn, setLoadingBtn] = useState(false);
 
   const uploadFile = useRef(null);
   const [file, setFile] = useState("");
@@ -229,6 +232,7 @@ function TambahPasien({ onChangeTambahPasien }) {
 
   const simpanDataPribadi = async (e) => {
     e.preventDefault();
+    setLoadingBtn(true);
     await handleSubmitDataPribadi(e);
     closeTambahPasien();
     Toast.fire({
@@ -261,9 +265,11 @@ function TambahPasien({ onChangeTambahPasien }) {
         },
       });
       if (response.data.success === true) {
+        setLoadingBtn(false);
         return response.data.id;
       }
     } catch (error) {
+      setLoadingBtn(false);
       console.log(error.message);
     }
   };
@@ -308,6 +314,7 @@ function TambahPasien({ onChangeTambahPasien }) {
   const handleSubmitAll = async (e) => {
     e.preventDefault();
     try {
+      setLoadingBtn(true);
       // Insert & Get last insert ID pasien
       const pasien_id = await handleSubmitDataPribadi(e);
       // Insert ukuran lama
@@ -367,7 +374,9 @@ function TambahPasien({ onChangeTambahPasien }) {
           icon: "success",
           title: response.data.message,
         });
+        setLoadingBtn(false);
       } else {
+        setLoadingBtn(false);
         console.log(response);
       }
     } catch (error) {
@@ -629,8 +638,17 @@ function TambahPasien({ onChangeTambahPasien }) {
                           dataPribadi.id_optik.length === 0
                         }
                       >
-                        <FontAwesomeIcon icon={faSave} className="me-1" />
-                        Simpan
+                        {loadingBtn ? (
+                          <>
+                            <Spinner animation="border" size="sm" />
+                            Loading
+                          </>
+                        ) : (
+                          <>
+                            <FontAwesomeIcon icon={faSave} className="me-1" />
+                            Simpan
+                          </>
+                        )}
                       </Button>
                       <Button
                         type="button"
@@ -1228,8 +1246,17 @@ function TambahPasien({ onChangeTambahPasien }) {
                             file.length === 0
                           }
                         >
-                          <FontAwesomeIcon icon={faSave} className="me-1" />
-                          Simpan
+                          {loadingBtn ? (
+                            <>
+                              <Spinner animation="border" size="sm" />
+                              Loading
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon icon={faSave} className="me-1" />
+                              Simpan
+                            </>
+                          )}
                         </Button>
                       </div>
                     </div>
