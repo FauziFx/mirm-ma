@@ -15,7 +15,6 @@ import useDocumentTitle from "../utils/useDocumentTitle";
 
 function RekamMedis({ user }) {
   useDocumentTitle("Rekam Medis");
-  const [dataUser, setDataUser] = useState(user);
   const [tambahPasien, setTambahPasien] = useState(false);
   const [tambahKunjungan, setTambahKunjungan] = useState(false);
   return (
@@ -87,7 +86,7 @@ function RekamMedis({ user }) {
               {tambahPasien ? (
                 <TambahPasien onChangeTambahPasien={setTambahPasien} />
               ) : (
-                <DataPasien user={dataUser} />
+                <DataPasien user={user} />
               )}
             </Tab.Pane>
             <Tab.Pane eventKey="kunjungan-pasien">
@@ -124,7 +123,7 @@ function RekamMedis({ user }) {
               {tambahKunjungan ? (
                 <TambahKunjungan onChangeTambahKunjungan={setTambahKunjungan} />
               ) : (
-                <KunjunganPasien user={dataUser} />
+                <KunjunganPasien user={user} />
               )}
             </Tab.Pane>
           </Tab.Content>
