@@ -239,6 +239,7 @@ function TambahPasien({ onChangeTambahPasien }) {
       icon: "success",
       title: "Data Berhasil Disimpan!",
     });
+    setLoadingBtn(false);
   };
 
   // handle submit data pribadi
@@ -265,7 +266,6 @@ function TambahPasien({ onChangeTambahPasien }) {
         },
       });
       if (response.data.success === true) {
-        setLoadingBtn(false);
         return response.data.id;
       }
     } catch (error) {
@@ -374,7 +374,9 @@ function TambahPasien({ onChangeTambahPasien }) {
           icon: "success",
           title: response.data.message,
         });
-        setLoadingBtn(false);
+        setTimeout(function () {
+          setLoadingBtn(false);
+        }, 3000);
       } else {
         setLoadingBtn(false);
         console.log(response);
