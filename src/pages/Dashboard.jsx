@@ -8,8 +8,12 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressCard,
+  faCertificate,
+  faDatabase,
   faFilePrescription,
   faHospitalUser,
+  faHouseMedicalCircleCheck,
+  faShield,
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import CountUp from "react-countup";
@@ -159,14 +163,10 @@ function Dashboard() {
           >
             <Card className="shadow p-3 mb-5 bg-body">
               <Card.Body>
-                <div className="p-4">
-                  <img
-                    src="/stok-lensa.jpg"
-                    alt=""
-                    className="img-fluid img-hover"
-                  />
+                <div className="p-4 text-center text-primary">
+                  <FontAwesomeIcon icon={faDatabase} size="6x" />
                 </div>
-                <Card.Title className="text-center text-primary">
+                <Card.Title className="text-center">
                   <h4>Stok Lensa</h4>
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-2 text-gray-800">
@@ -178,7 +178,7 @@ function Dashboard() {
               <Card.Footer className="bg-white border-0">
                 <Link
                   to="/stok-lensa"
-                  className="btn btn-outline-primary w-100 btn-lg btn-hover fs-6"
+                  className="btn btn-primary w-100 btn-lg btn-hover fs-6 text-white"
                 >
                   Selengkapnya
                 </Link>
@@ -193,14 +193,10 @@ function Dashboard() {
           >
             <Card className="shadow p-3 mb-5 bg-body">
               <Card.Body>
-                <div className="p-4">
-                  <img
-                    src="/rekam-medis.jpg"
-                    alt=""
-                    className="img-fluid img-hover"
-                  />
+                <div className="p-4 text-center text-primary">
+                  <FontAwesomeIcon icon={faHouseMedicalCircleCheck} size="6x" />
                 </div>
-                <Card.Title className="text-center text-primary">
+                <Card.Title className="text-center">
                   <h4>Rekam Medis</h4>
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-2 text-gray-800">
@@ -212,7 +208,7 @@ function Dashboard() {
               <Card.Footer className="bg-white border-0">
                 <Link
                   to="/rekam-medis"
-                  className="btn btn-outline-primary w-100 btn-lg btn-hover fs-6"
+                  className="btn btn-primary w-100 btn-lg btn-hover fs-6 text-white"
                 >
                   Selengkapnya
                 </Link>
@@ -227,14 +223,10 @@ function Dashboard() {
           >
             <Card className="shadow p-3 mb-5 bg-body">
               <Card.Body>
-                <div className="p-4">
-                  <img
-                    src="/garansi.jpg"
-                    alt=""
-                    className="img-fluid img-hover"
-                  />
+                <div className="p-4 text-center text-primary">
+                  <FontAwesomeIcon icon={faShield} size="6x" />
                 </div>
-                <Card.Title className="text-center text-primary">
+                <Card.Title className="text-center">
                   <h4>Garansi</h4>
                 </Card.Title>
                 <p className="mt-3 mb-4 mx-2 text-gray-800">
@@ -245,7 +237,7 @@ function Dashboard() {
               <Card.Footer className="bg-white border-0">
                 <Link
                   to="/garansi"
-                  className="btn btn-outline-primary w-100 btn-lg btn-hover fs-6"
+                  className="btn btn-primary w-100 btn-lg btn-hover fs-6 text-white"
                 >
                   Selengkapnya
                 </Link>
