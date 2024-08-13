@@ -637,7 +637,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                           dataPribadi.jenis_kelamin.length === 0 ||
                           dataPribadi.pekerjaan.length === 0 ||
                           dataPribadi.nohp.length === 0 ||
-                          dataPribadi.id_optik.length === 0
+                          dataPribadi.id_optik.length === 0 ||
+                          loadingBtn === true
                         }
                       >
                         {loadingBtn ? (
@@ -1245,7 +1246,8 @@ function TambahPasien({ onChangeTambahPasien }) {
                             ukuranBaru.lsph.length === 0 ||
                             ukuranBaru.optik_id.length === 0 ||
                             ukuranBaru.pemeriksa.length === 0 ||
-                            file.length === 0
+                            file.length === 0 ||
+                            loadingBtn === true
                           }
                         >
                           {loadingBtn ? (
