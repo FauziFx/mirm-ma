@@ -29,6 +29,7 @@ function CekStok1() {
   const [filterStok, setFilterStok] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const [loadingStok, setLoadingStok] = useState(false);
+  const [namaLensa, setNamaLensa] = useState("");
 
   // Filter
   const [search, setSearch] = useState("");
@@ -74,13 +75,14 @@ function CekStok1() {
     },
   ];
 
-  const getStok = async (namaLensa) => {
+  const getStok = async (nama_lensa) => {
     try {
       setLoadingStok(true);
+      setNamaLensa(nama_lensa);
       setSearch("");
       const response = await axios.get(API_URL + "stok", {
         params: {
-          nama_lensa: namaLensa,
+          nama_lensa: nama_lensa,
         },
         headers: {
           Authorization: cookies.get("rm-ma-token"),
@@ -207,7 +209,7 @@ function CekStok1() {
               <Col md={3}>
                 <Button
                   variant="default"
-                  className="mb-2"
+                  className="mb-1"
                   size="sm"
                   onClick={() => {
                     setCrud((state) => ({ ...stokState, lensa: true }));
@@ -218,7 +220,10 @@ function CekStok1() {
                   Kembali
                 </Button>
               </Col>
-              <Col md={{ span: 5, offset: 4 }}>
+              <Col md={4}>
+                <div className="mb-2 fw-bold">{namaLensa}</div>
+              </Col>
+              <Col md={5}>
                 <div className="search-box d-inline">
                   <InputGroup className="mb-2">
                     <InputGroup.Text id="search-data">
